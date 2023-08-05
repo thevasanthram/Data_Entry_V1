@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="tailwind.min.css">                                    
+    <link rel="stylesheet" href="createSection.css">
+    <title>Data Entry System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <form action="/" method="get" id="homeForm"></form>
+    <script>
+      (function tokenValidate() {
+        console.log('tokenValidating');
+        if (localStorage.getItem('token') == null) {
+          console.log('invalid');
+          document.getElementById('homeForm').submit();
+        } else {
+          console.log('valid');
+        }
+      })();
+    </script>
+</head>
+<body>
+    <div>
+        <!-- Header part  which contain user_name,  App_Name and LOGOUT btn  -->
+        <div class="header">
+            <div style="display: flex">
+                <img
+                src="./icons/navBarIcon.png"
+                title="Switch Mode"
+                id="navBarIcon"
+                alt="Switch Mode"
+                style="cursor: pointer; width: 8%; margin: 0.5% 3%"
+                />
+                <div class="heading">Data Entry System</div>
+            </div>
+
+            <form id="btn" action="/logout" method="get" class="logoutButton">
+                <div class="admin" id="user-mode-name"><%= currentUser %></div>
+                <button
+                type="button"
+                onclick="logout()"
+                style="
+                    background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+                "
+                class="button-logout bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+                >
+                LOGOUT
+                </button>
+            </form>
+         </div>
+
+         <div id="navBarDivision">
+            <div
+              id="UserProfileDiv"
+              onmouseover="onmouseoverBGColor(event)"
+              onmouseout="onmouseoutBGColor(event)"
+              onclick="handleFormSubmit(event)"
+            >
+              <div id="user_Profile" class="category">User Profile</div>
+            </div>
+            <div
+              id="DataEntryDiv"
+              onmouseover="onmouseoverBGColor(event)"
+              onmouseout="onmouseoutBGColor(event)"
+              onclick="handleFormSubmit(event)"
+            >
+              <div id="dataEntry" class="category">Data Entry</div>
+            </div>
+            <div
+              id="ReportGenerationDiv"
+              onmouseover="onmouseoverBGColor(event)"
+              onmouseout="onmouseoutBGColor(event)"
+              onclick="handleFormSubmit(event)"
+            >
+              <div id="reportGeneration" class="category">Report Generation</div>
+            </div>
+            <div
+              id="AdministrationDiv"
+              onmouseover="onmouseoverBGColor(event)"
+              onmouseout="onmouseoutBGColor(event)"
+              onclick="handleFormSubmit(event)"
+            >
+              <div id="administration" class="category">Administration</div>
+            </div>
+            <div
+              id="AdminLogDiv"
+              onmouseover="onmouseoverBGColor(event)"
+              onmouseout="onmouseoutBGColor(event)"
+              onclick="handleFormSubmit(event)"
+            >
+              <div id="adminLog" class="category">Admin Logs</div>
+            </div>
+            <div
+              id="DashboardDiv"
+              onmouseover="onmouseoverBGColor(event)"
+              onmouseout="onmouseoutBGColor(event)"
+              onclick="handleFormSubmit(event)"
+            >
+              <div id="activityLog" class="category">Dashboard</div>
+            </div>
+            <div id="UpdateSectionDiv"
+                onmouseover="onmouseoverBGColor(event)"
+                onmouseout="onmouseoutBGColor(event)"
+                onclick="handleFormSubmit(event)"
+            >
+                <div id="update" class="category">Update Section</div>
+            </div>
+            <div id="CreateSectionDiv"
+                onmouseover="onmouseoverBGColor(event)"
+                onmouseout="onmouseoutBGColor(event)"
+            >
+                <div id="create" class="category">Create Section</div>
+            </div>
+          </div>
+    
+          <form action="/profile" method="post" id="userProfileForm">
+            <input
+              type="hidden"
+              id="currentUser"
+              name="currentUser"
+              value="<%= currentUser %>"
+            />
+            <input
+              type="hidden"
+              id="currentEmpID"
+              name="currentEmpID"
+              value="<%= currentEmpID %>"
+            />
+            <input
+              type="hidden"
+              id="companyName"
+              name="companyName"
+              value="<%= companyName %>"
+            />
+            <input type="hidden" class="token" name="token" value="" />
+          </form>
+          <form action="/follower" id="followerForm" method="post">
+            <input
+              type="hidden"
+              id="currentUser"
+              name="currentUser"
+              value="<%= currentUser %>"
+            />
+            <input
+              type="hidden"
+              id="currentEmpID"
+              name="currentEmpID"
+              value="<%= currentEmpID %>"
+            />
+            <input
+              type="hidden"
+              id="companyName"
+              name="companyName"
+              value="<%= companyName %>"
+            />
+            <input type="hidden" class="token" name="token" value="" />
+          </form>
+          <form action="/filter" method="post" id="filterFrom">
+            <input
+              type="hidden"
+              id="currentUser"
+              name="currentUser"
+              value="<%= currentUser %>"
+            />
+            <input
+              type="hidden"
+              id="currentEmpID"
+              name="currentEmpID"
+              value="<%= currentEmpID %>"
+            />
+            <input
+              type="hidden"
+              id="companyName"
+              name="companyName"
+              value="<%= companyName %>"
+            />
+            <input type="hidden" class="token" name="token" value="" />
+          </form>
+          <form action="/admin" method="post" id="adminForm">
+            <input
+              type="hidden"
+              id="currentUser"
+              name="currentUser"
+              value="<%= currentUser %>"
+            />
+            <input
+              type="hidden"
+              id="currentEmpID"
+              name="currentEmpID"
+              value="<%= currentEmpID %>"
+            />
+            <input
+              type="hidden"
+              id="companyName"
+              name="companyName"
+              value="<%= companyName %>"
+            />
+            <input type="hidden" class="token" name="token" value="" />
+          </form>
+          <form action="/adminLog" method="post" id="adminLogForm">
+            <input
+              type="hidden"
+              id="currentUser"
+              name="currentUser"
+              value="<%= currentUser %>"
+            />
+            <input
+              type="hidden"
+              id="currentEmpID"
+              name="currentEmpID"
+              value="<%= currentEmpID %>"
+            />
+            <input
+              type="hidden"
+              id="companyName"
+              name="companyName"
+              value="<%= companyName %>"
+            />
+            <input type="hidden" class="token" name="token" value="" />
+          </form>
+          <form action="/dashboard" method="post" id="dashboardForm">
+            <input
+              type="hidden"
+              id="currentUser"
+              name="currentUser"
+              value="<%= currentUser %>"
+            />
+            <input
+              type="hidden"
+              id="currentEmpID"
+              name="currentEmpID"
+              value="<%= currentEmpID %>"
+            />
+            <input
+              type="hidden"
+              id="companyName"
+              name="companyName"
+              value="<%= companyName %>"
+            />
+            <input type="hidden" class="token" name="token" value="" />
+          </form>
+          <form action="/updateSection" method="post" id="update_Section">
+            <input
+              type="hidden"
+              id="currentUser"
+              name="currentUser"
+              value="<%= currentUser %>"
+            />
+            <input
+              type="hidden"
+              id="currentEmpID"
+              name="currentEmpID"
+              value="<%= currentEmpID %>"
+            />
+            <input
+              type="hidden"
+              id="companyName"
+              name="companyName"
+              value="<%= companyName %>"
+            />
+            <input type="hidden" class="token" name="token" value="" />
+          </form>
+          <form action="/createSection" method="post" id="createSectionForm">
+            <input
+              type="hidden"
+              id="currentUser"
+              name="currentUser"
+              value="<%= currentUser %>"
+            />
+            <input
+              type="hidden"
+              id="currentEmpID"
+              name="currentEmpID"
+              value="<%= currentEmpID %>"
+            />
+            <input
+              type="hidden"
+              id="companyName"
+              name="companyName"
+              value="<%= companyName %>"
+            />
+            <input type="hidden" class="token" name="token" value="" />
+          </form>
+    
+      <!--  -->
+      <!-- layouts for creating category,subCategory, defect, subDefect -->
+      <div id="main_content">
+        <div id="create_section_layout">
+          <div id="create_section_title">Create Section</div>
+          <div id="left_section">
+            <div id="section_title_name">
+              <p id="section_title">Select Section: </p>
+              <select name="select_section" class="input_content" style="color: black;" onchange="selectSection(event)">
+                <option value="category">Category</option>
+                <option value="sub_category">Sub-Category</option>
+                <option value="defect">Defect</option>
+                <option value="sub_defect">Sub-Defect</option>
+              </select>
+            </div>
+            <div id="section_container">
+              <div id="category_section_content" class="section_items section_content">
+                <div class="action_button_container">
+                  <div onclick="display('add','category')" class ="add_button" id="add_category_button">Add Category</div>
+                  <div onclick="display('delete','category')" class="delete_button" id="delete_category_button">Delete Category</div>
+                </div>
+                <div id="add_category_container" >
+                  <form id="AddCategoryForm">
+                    <div id="add_category_items">
+                      <p>Category Name: </p>
+                      <input class="input_content" type="text" id="add_category_input" placeholder="Enter category name" required>
+                    </div>
+                  </form>
+                  <p id="CategoryErrorMsg" class="errorMsg"></p>
+                  <button class="final_action_button" onclick="validate('Add','Category','/addCategoryOption','add_category_input')">Add</button>
+                </div>
+                <div id="delete_category_container" style="display: none">
+                  <form id="DeleteCategoryForm">
+                    <div id="delete_category_items">
+                      <p>Select Category: </p>
+                      <select id="Category" class="input_content">
+                        <%for(let i=0; i < categoryOptions.length; i++){%>
+                          <option value="<%= categoryOptions[i].category %>"><%= categoryOptions[i].category %></option>
+                        <%}%>
+                      </select>
+                    </div>
+                  </form>
+                  <p id="DeleteCategoryErrorMsg" class="errorMsg"></p>
+                  <button class="final_action_button" onclick="validate('Delete','Category','/deleteCategoryOption','Category')">Delete</button>
+                </div>
+              </div>
+
+              <div id="sub_category_section_content" style="display: none;" class="section_items section_content">
+                <div class="action_button_container">
+                  <div onclick="display('add','sub_category')" class ="add_button" id="add_sub_category_button">Add Sub-Category</div>
+                  <div onclick="display('delete','sub_category')" class ="delete_button" id="delete_sub_category_button">Delete Sub-Category</div>
+                </div>
+                <div id="add_sub_category_container" >
+                  <form id="AddSub-CategoryForm">
+                    <div id="add_sub_category_items">
+                      <p>Sub-Category Name: </p>
+                      <input class="input_content" type="text" id="add_sub_category_input" placeholder="Enter sub-category name" required>
+                    </div>
+                  </form>
+                  <p id="Sub-CategoryErrorMsg" class="errorMsg"></p>
+                  <button class="final_action_button" onclick="validate('Add','Sub-Category','/addSubCategoryOption','add_sub_category_input')">Add</button>
+                </div>
+                <div id="delete_sub_category_container" style="display: none">
+                  <form id="DeleteSub-CategoryForm">
+                      <div id="add_sub_category_items">
+                          <p>Select Sub-Category: </p>
+                          <select id="SubCategory" class="input_content">
+                              <%for(let i=0; i < subCategoryOptions.length; i++){%>
+                                  <option value="<%= subCategoryOptions[i].sub_category %>"><%= subCategoryOptions[i].sub_category %></option>
+                              <%}%>
+                          </select>
+                      </div>
+                  </form>
+                  <p id="DeleteSub-CategoryErrorMsg" class="errorMsg"></p>
+                  <button class="final_action_button" onclick="validate('Delete','Sub-Category','/deleteSubCategoryOption','SubCategory')">Delete</button>
+                </div>
+              </div>
+
+              <div id="defect_section_content" style="display: none;" class="section_items section_content">
+                <div class="action_button_container">
+                  <div onclick="display('add','defect')" class ="add_button" id="add_defect_button">Add Defect</div>
+                  <div onclick="display('delete','defect')" class ="delete_button" id="delete_defect_button">Delete Defect</div>
+                </div>
+                <div id="add_defect_container" >
+                  <form id="AddDefectForm">
+                      <div id="add_defect_items">
+                          <p>Defect Name: </p>
+                          <input class="input_content" type="text" id="add_defect_input" placeholder="Enter defect name" required>
+                      </div>
+                  </form>
+                  <p id="DefectErrorMsg" class="errorMsg"></p>
+                  <button class="final_action_button" onclick="validate('Add','Defect','/addDefectOption','add_defect_input')">Add</button>
+                </div>
+                <div id="delete_defect_container" style="display: none">
+                  <form id="DeleteDefectForm">
+                      <div id="delete_defect_items">
+                          <p>Select Defect: </p>
+                          <select id="Defect" class="input_content">
+                              <%for(let i=0; i < defectOptions.length; i++){%>
+                                  <option value="<%= defectOptions[i].defect %>"><%= defectOptions[i].defect %></option>
+                              <%}%>
+                          </select>
+                      </div>
+                  </form>
+                  <p id="DeleteDefectErrorMsg" class="errorMsg"></p>
+                  <button class="final_action_button" onclick="validate('Delete','Defect','/deleteDefectOption','Defect')">Delete</button>
+                </div>
+              </div>
+
+              <div id="sub_defect_section_content" style="display: none;" class="section_items section_content">
+                <div class="action_button_container">
+                  <div onclick="display('add','sub_defect')" class ="add_button" id="add_sub_defect_button">Add Sub-Defect</div>
+                  <div onclick="display('delete','sub_defect')" class ="delete_button" id="delete_sub_defect_button">Delete Sub-Defect</div>
+                </div>
+                <div id="add_sub_defect_container">
+                  <form id="AddSub-DefectForm">
+                      <div id="add_sub_defect_items">
+                          <p>Sub-Defect Name: </p>
+                          <input class="input_content" type="text" id="add_sub_defect_input" placeholder="Enter sub-defect name" required>
+                      </div>
+                  </form>
+                  <p id="Sub-DefectErrorMsg" class="errorMsg"></p>
+                  <button class="final_action_button" onclick="validate('Add','Sub-Defect','/addSubDefectOption','add_sub_defect_input')">Add</button>
+                </div>
+                <div id="delete_sub_defect_container" style="display: none">
+                  <form id="DeleteSub-DefectForm">
+                      <div id="delete_sub_defect_items">
+                          <p>Select Sub-Defect: </p>
+                          <select id="SubDefect" class="input_content">
+                              <%for(let i=0; i < subDefectOptions.length; i++){%>
+                                  <option value="<%= subDefectOptions[i].sub_defect %>"><%= subDefectOptions[i].sub_defect %></option>
+                              <%}%>
+                          </select>
+                      </div>
+                  </form>
+                  <p id="DeleteSub-DefectErrorMsg" class="errorMsg"></p>
+                  <button class="final_action_button" onclick="validate('Delete','Sub-Defect','/deleteSubDefectOption','SubDefect')">Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="existing_section_items">
+          <div class="section_items list_items" id="category_existing_items">
+            <div class="section_title">
+              Category  
+            </div>
+           
+            <div class="category_items current_items">
+              <%for(let i=0; i < categoryOptions.length; i++){%>
+                <div class="category_item current_item"><%= categoryOptions[i].category %></div>
+              <%}%>
+            </div>
+          </div>
+          <div class="section_items list_items" style="display: none;" id="sub_category_existing_items" >
+            <div class="section_title">
+              Sub Category
+            </div>
+            <div class="Sub-category_items current_items">
+              <%for(let i=0; i < subCategoryOptions.length; i++){%>
+                <div class="Sub-category_item current_item" ><%= subCategoryOptions[i].sub_category %></div>
+              <%}%>
+            </div>
+          </div>
+          <div class="section_items list_items" style="display: none;" id="defect_existing_items" >
+            <div class="section_title">
+              Defect
+            </div>
+            <div class="Defect_items current_items">
+              <%for(let i=0; i < defectOptions.length; i++){%>
+                <div class="Defect_item current_item" ><%= defectOptions[i].defect %></div>
+              <%}%>
+            </div>
+          </div>
+          <div class="section_items list_items" style="display: none;" id="sub_defect_existing_items">
+            <div class="section_title" >
+              Sub Defect
+            </div>
+            <div class="Sub-defect_items current_items">
+              <%for(let i=0; i < subDefectOptions.length; i++){%>
+                <div class="Sub-Defect_item current_item" ><%= subDefectOptions[i].sub_defect %></div>
+              <%}%>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="responsePopupEnsureDivision">
+        <div class="responsePopupEnsureModalContent">
+          <div id="responsePopupEnsureHolder" style="display: flex;
+          width: 90%; flex-direction: column; gap: 1rem;">
+            <p
+              style="font-weight: 700; margin: 1%; padding: 1%;color: black; font-size: large"
+              id="responseEnsureMessage"
+            ></p>
+            <p style="display: none;" id="actionCache"></p>
+            <p style="display: none;" id="sectionCache"></p>
+            <p style="display: none;" id="routeCache"></p>
+            <p style="display: none;" id="value_containerCache"></p>
+            <div>
+              <button
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="bearer()"
+              >
+                OK
+              </button>
+              <button
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="(() => document.getElementById('responsePopupEnsureDivision').style.visibility = 'hidden')()"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="responsePopupDivision">
+        <div class="responsePopupModalContent">
+          <div id="responsePopupHolder" style="display: flex;
+          width: 90%; flex-direction: column; gap: 1rem;">
+            <p
+              style="font-weight: 700; margin: 1%; padding: 1%;color: black; font-size: large"
+              id="responseMessage"
+            ></p>
+            <div>
+              <button
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="(() => document.getElementById('createSectionForm').submit())()"
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <form action="/createSection" method="post" id="createSectionForm">
+        <input
+          type="hidden"
+          id="currentUser"
+          name="currentUser"
+          value="<%= currentUser %>"
+        />
+        <input
+          type="hidden"
+          id="currentEmpID"
+          name="currentEmpID"
+          value="<%= currentEmpID %>"
+        />
+        <input
+          type="hidden"
+          id="companyName"
+          name="companyName"
+          value="<%= companyName %>"
+        />
+        <input type="hidden" class="token" name="token" value="" />
+      </form>
+    <script>
+
+        const tokenElements = document.getElementsByClassName('token');
+
+        Object.values(tokenElements).map((tokenElement) => {
+            tokenElement.value = localStorage.getItem('token');
+        });
+
+        document.addEventListener('click', hideAndSeek);
+
+        function hideAndSeek(event) {
+            const navBarDivision = document.getElementById('navBarDivision');
+            if (event.target.id != 'navBarIcon') {
+                navBarDivision.style.display = 'none';
+            } else {
+                if (
+                navBarDivision.style.display == 'none' ||
+                navBarDivision.style.display == ''
+                ) {
+                navBarDivision.style.display = 'inline-block';
+                } else if (navBarDivision.style.display == 'inline-block') {
+                navBarDivision.style.display = 'none';
+                }
+            }
+        }
+
+        function onmouseoverBGColor(event) {
+            event.target.style.backgroundColor = '#075154'; 
+        }
+
+        function onmouseoutBGColor(event) {
+            if (event.target.id != 'create') {
+                event.target.style.backgroundColor = '#4ca1af';
+            }
+        }
+
+        function handleFormSubmit(event) {
+            var empStatus = '<%= emp_Status %>';
+            var empChartAccess = '<%= emp_ChartAccess %>';
+
+            if (event.target.id == 'reportGeneration') {
+                if (empChartAccess.length > 0) {
+                document.getElementById('filterFrom').submit();
+                } else {
+                document.getElementById(
+                    'reportGenerationDeniedDivision'
+                ).style.visibility = 'visible';
+                }
+            }
+            else if (event.target.id == 'update') {
+                if (empStatus == 'admin') {
+                document.getElementById('update_Section').submit();
+                } else {
+                document.getElementById(
+                    'adminAccessDeniedDivision'
+                ).style.visibility = 'visible';
+                }
+            } else if (event.target.id == 'administration') {
+                if (empStatus == 'admin') {
+                document.getElementById('adminForm').submit();
+                } else {
+                document.getElementById(
+                    'adminAccessDeniedDivision'
+                ).style.visibility = 'visible';
+                }
+            } else if (event.target.id == 'adminLog') {
+                if (empStatus == 'admin') {
+                document.getElementById('adminLogForm').submit();
+                } else {
+                document.getElementById(
+                    'adminAccessDeniedDivision'
+                ).style.visibility = 'visible';
+                }
+            } else if (event.target.id == 'activityLog') {
+                if (empStatus == 'admin') {
+                document.getElementById('dashboardForm').submit();
+                } else {
+                document.getElementById(
+                    'adminAccessDeniedDivision'
+                ).style.visibility = 'visible';
+                }
+            } else if (event.target.id == 'user_Profile') {
+                document.getElementById('userProfileForm').submit();
+            } else if(event.target.id == 'create'){
+                document.getElementById('createSectionForm').submit();
+            } else if (event.target.id == 'dataEntry') {
+                document.getElementById('followerForm').submit();
+            }
+        }
+
+        const options = {
+            Category: <%- JSON.stringify(categoryOptions) %>,
+            'Sub-Category': <%- JSON.stringify(subCategoryOptions) %>,
+            Defect: <%- JSON.stringify(defectOptions) %>,
+            'Sub-Defect': <%- JSON.stringify(subDefectOptions) %>
+        }
+
+        function display(action,section){
+            if(action == 'add'){
+                document.getElementById(`add_${section}_container`).style.display = 'flex'
+                document.getElementById(`delete_${section}_container`).style.display = 'none'
+                
+                document.getElementById(`add_${section}_button`).style.backgroundColor = 'rgb(83, 170, 173)'
+                document.getElementById(`add_${section}_button`).style.fontWeight = '700'
+                document.getElementById(`delete_${section}_button`).style.backgroundColor = 'rgba(101, 169, 171, 0.421)'
+                document.getElementById(`delete_${section}_button`).style.fontWeight = '500'
+            }else{
+                document.getElementById(`delete_${section}_container`).style.display = 'flex'
+                document.getElementById(`add_${section}_container`).style.display = 'none'
+
+                document.getElementById(`delete_${section}_button`).style.backgroundColor = 'rgb(83, 170, 173)'
+                document.getElementById(`delete_${section}_button`).style.fontWeight = '700'
+                document.getElementById(`add_${section}_button`).style.backgroundColor = 'rgba(101, 169, 171, 0.421)'
+                document.getElementById(`add_${section}_button`).style.fontWeight = '500'
+            }
+        }
+
+        function validate(action,section,route,value_container){
+            const form = document.getElementById(`${action}${section}Form`)
+            if (!form.checkValidity()) {
+                if (form.reportValidity) {
+                    form.reportValidity();
+                } else {
+                    alert(msg.ieErrorForm);
+                }
+            } else {
+                if(action == 'Add'){
+                    let property;
+                    switch(section){
+                        case 'Category': property = 'category'; break;
+                        case 'Sub-Category': property = 'sub_category'; break;
+                        case 'Defect': property = 'defect'; break;
+                        case 'Sub-Defect': property = 'sub_defect'; break;
+                    }
+                    const input_value = document.getElementById(`${action.toLowerCase()}_${section.toLowerCase().replace('-','_')}_input`).value.toUpperCase()
+                    let isSectionExistAlready = false
+                    options[`${section}`].map( (singleItem) => {
+                        if(property == Object.keys(singleItem)[0] && input_value == Object.values(singleItem)[0]){
+                            isSectionExistAlready = true
+                        }
+                    })
+                    if(isSectionExistAlready){
+                        document.getElementById(`${section}ErrorMsg`).innerHTML = `${section} already exists`
+                        setTimeout(() => {
+                            document.getElementById(`${section}ErrorMsg`).innerHTML = ''
+                        }, 3000);
+                    } else {
+                        document.getElementById('actionCache').innerHTML = action
+                        document.getElementById('sectionCache').innerHTML = section
+                        document.getElementById('routeCache').innerHTML = route
+                        document.getElementById('value_containerCache').innerHTML = value_container
+                        
+                        document.getElementById('responseEnsureMessage').innerHTML = `Are you sure want to ${action.toLowerCase()} ${section.toLowerCase()} ?`
+                        document.getElementById('responsePopupEnsureDivision').style.visibility = 'visible'
+                    }
+                }else{
+                    if(document.getElementById(`${section.replace('-','')}`).value){
+                        document.getElementById('actionCache').innerHTML = action
+                        document.getElementById('sectionCache').innerHTML = section
+                        document.getElementById('routeCache').innerHTML = route
+                        document.getElementById('value_containerCache').innerHTML = value_container
+                        
+                        document.getElementById('responseEnsureMessage').innerHTML = `Are you sure want to ${action.toLowerCase()} ${section.toLowerCase()} ?`
+                        document.getElementById('responsePopupEnsureDivision').style.visibility = 'visible'
+                    }else{
+                        document.getElementById(`Delete${section}ErrorMsg`).innerHTML = `No ${section} to delete`
+                        setTimeout(() => {
+                            document.getElementById(`Delete${section}ErrorMsg`).innerHTML = ''
+                        }, 3000);
+                    }  
+                } 
+            }
+        }
+
+        async function bearer(){
+            const action = document.getElementById('actionCache').innerHTML
+            const section = document.getElementById('sectionCache').innerHTML
+            const route = document.getElementById('routeCache').innerHTML
+            const value_container = document.getElementById('value_containerCache').innerHTML
+            const value = document.getElementById(value_container).value
+
+            const response = await fetch(route,{
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    value,
+                })
+            })
+
+            if(response.status == 200){
+                document.getElementById('responseMessage').innerHTML = `${section} ${action=='Add'? 'added': 'deleted'} successfully`
+                document.getElementById('responsePopupDivision').style.visibility = 'visible'
+            }else{
+                document.getElementById('responseMessage').innerHTML = `Error while ${action=='Add'? 'adding': 'deleting'}. Try Again!`
+                document.getElementById('responsePopupDivision').style.visibility = 'visible'
+            }
+        }
+
+        function selectSection(event){
+          const value = event.target.value
+
+          const section_items = document.getElementsByClassName('section_items')
+
+          Object.values(section_items).map( (item) => {
+            console.log('DOM: ',item)
+            item.style.display = 'none'
+          })
+
+          switch(value){
+            case 'category': document.getElementById('category_section_content').style.display = 'flex'; document.getElementById('category_section_content').style.flexDirection  = 'column'; document.getElementById('category_existing_items').style.display = 'flex';break;
+            case 'sub_category': document.getElementById('sub_category_section_content').style.display = 'flex';  document.getElementById('sub_category_section_content').style.flexDirection  = 'column';document.getElementById('sub_category_existing_items').style.display = 'flex';break;
+            case 'defect': document.getElementById('defect_section_content').style.display = 'flex';  document.getElementById('defect_section_content').style.flexDirection  = 'column';document.getElementById('defect_existing_items').style.display = 'flex';break;
+            case 'sub_defect': document.getElementById('sub_defect_section_content').style.display = 'flex';  document.getElementById('sub_defect_section_content').style.flexDirection  = 'column';document.getElementById('sub_defect_existing_items').style.display = 'flex';break
+          }
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            Object.values(tokenElements).map((tokenElement) => {
+            tokenElement.value = '';
+            });
+            document.getElementsByClassName('logoutButton')[0].submit();
+        }
+    </script>
+</body>
+</html>

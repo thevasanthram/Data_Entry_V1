@@ -1,0 +1,1834 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <form action="/" method="get" id="homeForm"></form>
+    <script>
+      (function tokenValidate() {
+        console.log('tokenValidating');
+        if (localStorage.getItem('token') == null) {
+          console.log('invalid');
+          document.getElementById('homeForm').submit();
+        } else {
+          console.log('valid');
+        }
+      })();
+    </script>
+  <link rel="stylesheet" href="tailwind.min.css">                                    
+    <link rel="stylesheet" href="updateZones.css">
+    <link rel="stylesheet" href="updateZones_2.css" />
+    <link rel="shortcut icon" href="./favicon.png" type="image/x-icon" />
+    <title>Data Entry System</title>
+    <link
+      href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <script src="../resources/tailwind.config.js"></script> -->
+  </head>
+  <body>
+    <div>
+      <div class="header">
+        <div style="display: flex; align-items: center">
+          <img
+            src="./icons/home.png"
+            title="Home"
+            id="home-icon"
+            alt="Home"
+            onclick="document.getElementById('followerForm').submit();"
+          />
+          <div class="heading">Data Entry System</div>
+          <p class="selected-message">
+            Category : <%= selectedCategory %> | Sub-Category : <%=
+            selectedSubCategory %>
+          </p>
+        </div>
+        <form id="btn" action="/logout" method="get" class="logoutButton">
+          <div class="admin" id="user-mode-name"><%= currentUser %></div>
+          <button
+            type="button"
+            onclick="logout()"
+            style="
+              background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+            "
+            class="button-logout bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+          >
+            LOGOUT
+          </button>
+        </form>
+      </div>
+      <div id="title-name-content">
+        <div class="sub_container">
+          <img
+            src="./icons/arrow.png"
+            title="Back"
+            id="go-back-icon"
+            alt="Go Back"
+            onclick="document.getElementById('updateSectionIIForm').submit();"
+          />
+          <p id="title-name">Select Defect :</p>
+        </div>
+      </div>
+      <!-- !.............. Update Category Section.......... -->
+      <div class="update_container">
+        <div class="update_subContainer">
+          <h1 class="update_title">UPDATE DEFECT SECTION</h1>
+          <div class="update_btn_container">
+            <!-- <button
+              type="button"
+              class="inline-block px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out"
+              onclick="(() => {document.getElementById('UpdateDefectsDivision').style.visibility = 'visible'})()"
+            >
+              EDIT DEFECT/SUB-DEFECT
+            </button> -->
+            <button
+              type="button"
+              class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out"
+              onclick="(() => {document.getElementById('addDefectsDivision').style.visibility = 'visible'})()"
+            >
+              ADD DEFECT/SUB-DEFECT
+            </button>
+            <button
+              type="button"
+              class="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"
+              onclick="(() => {document.getElementById('removeDefectsDivision').style.visibility = 'visible'})()"
+            >
+              DELETE DEFECT/SUB-DEFECT
+            </button>
+          </div>
+        </div>
+        <div class="update_subContainer">
+          <h1 class="update_title">UPDATE ZONE SECTION</h1>
+          <div class="update_btn_container update_zone_btn_container">
+            <button
+              type="button"
+              class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out"
+              onclick="(() => {document.getElementById('addZonesDivision').style.visibility = 'visible'})()"
+            >
+              ADD ZONE
+            </button>
+            <button
+              type="button"
+              class="inline-block px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out"
+              onclick="(() => {document.getElementById('editZonesDivision').style.visibility = 'visible'})()"
+            >
+              EDIT ZONE
+            </button>
+            <button
+              type="button"
+              class="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"
+              onclick="(() => {document.getElementById('removeZonesDivision').style.visibility = 'visible'})()"
+            >
+              DELETE ZONE
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- !........... Popups for Deletion of category........... -->
+      <div id="removeDefectsDivision">
+        <div class="removeDefectsModalContent">
+          <div id="removeDefectsDivisionHolder">
+            <p
+              style="
+                font-weight: 700;
+                margin: 1%;
+                padding: 1%;
+                font-size: large;
+              "
+            >
+              Remove Defects/Sub-Defects
+            </p>
+            <p style="font-weight: 500">Select Category :</p>
+            <select id="remove_category_select" style="border-radius: 5px;" onchange="deleteDefectSubDefectSwitch()">
+              <option
+                value="defect"
+                style="background-color: black; color: white"
+                id="defect_option"
+              >
+                DEFECT
+              </option>
+              <option
+                value="sub_defect"
+                style="background-color: black; color: white"
+                id="SubDefect_option"
+              >
+                SUB-DEFECT
+              </option>
+            </select>
+            <div id="removeDefectsInput">
+              <div class="select_updateDefect_container" style="display: none;">
+                <p style="font-weight: 500">Select Parent Defect:</p>
+                <select
+                  name="removeDefect_category"
+                  id="remove_parent_defect_select"
+                  style="border-radius: 5px;"
+                  onchange="remove_changeSubDefect()"
+                >
+                <% for (let i=0; i < Object.keys(defectObject).length; i++){%>
+                  <option value="<%= Object.keys(defectObject)[i] %>"><%= Object.keys(defectObject)[i] %></option>
+                <%}%>
+                </select>
+              </div>
+              <div id="remove_input_defect">
+                <p style="font-weight: 500">Select Defect:</p>
+                <select
+                  name="removeDefect_category"
+                  id="remove_defect_select"
+                  style="border-radius: 5px;"
+                  onchange="remove_changeSubDefect()"
+                >
+                <% for (let i=0; i < Object.keys(defectObject).length; i++){%>
+                  <option value="<%= Object.keys(defectObject)[i] %>"><%= Object.keys(defectObject)[i] %></option>
+                <%}%>
+                </select>
+              </div>
+              <div class="select_removeOptions_container" id="remove_sub_defect_input" style="display: none;">
+                <p style="font-weight: 500">Select Sub-Defect:</p>
+                <select
+                  class="remove_defect_content"
+                  style="border-radius: 5px"
+                  id="remove_sub_defect_select"
+                >
+                  <% if(Object.keys(defectObject).length > 0){ %>
+                    <% const subDefectList = Object.keys(defectObject[Object.keys(defectObject)[0]]) %>
+                    <% for (let i=0; i < subDefectList.length; i++){ %>
+                      <option
+                        class="Defects_options"
+                        style="
+                          background-color: black;
+                          color: #eeeeee;
+                          border-radius: 5px;
+                        "
+                        value="<%= subDefectList[i] %>"
+                        id="<%= subDefectList[i] %>-main-defect-button"
+                      >
+                        <%= subDefectList[i] %>
+                      </option>
+                    <%}%>
+                  <% } %>
+                </select>
+              </div>
+            </div>
+            <div
+              id="removeDefectsErrorMsg"
+              style="color: #ff0000"
+            >
+            </div>
+            <div id="removeDefectsButton">
+              <button
+                style="display: block"
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="remove_validate()"
+              >
+                Remove
+              </button>
+              <button
+                style="display: block"
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="(() => {document.getElementById('removeDefectsDivision').style.visibility = 'hidden'})()"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="removeDefectsDivisionEnsure">
+        <div class="removeDefectsEnsureModalContent">
+          <div
+            id="removeDefectsDivisionEnsureHolder"
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <p style="font-size: large; font-weight: 600">
+              Are you sure want to remove ?
+            </p>
+            <div id="removeDefectsEnsureButton">
+              <button
+                style="display: block"
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="remove()"
+              >
+                Remove
+              </button>
+              <button
+                style="display: block"
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="(() => {document.getElementById('removeDefectsDivisionEnsure').style.visibility = 'hidden'})()"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="deleteDefectsDivisionSuccess">
+        <div class="deleteDefectsDivisionSuccessModalContent">
+          <div id="deleteDefectsFinalDivisionHolder" style="display: flex;
+          width: 90%; flex-direction: column; gap: 1rem;">
+            <p
+              style="
+                font-weight: 700;
+                margin: 1%;
+                padding: 1%;
+                font-size: large;
+              "
+              id="deleteDefectsFinalMessage"
+            ></p>
+            <div>
+              <button
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium 
+                rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="(() => document.getElementById('updateSectionIIIForm').submit())()"
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- !........... Popups for Adding of category........... -->
+      <div id="addDefectsDivision">
+        <div class="addDefectsModalContent">
+          <div id="addDefectsDivisionHolder">
+            <p
+              style="
+                font-weight: 700;
+                margin: 1%;
+                padding: 1%;
+                font-size: large;
+              "
+            >
+              Add Category
+            </p>
+            <p style="font-weight: 500">Select Category:</p>
+            <select
+              name="defect_catogery"
+              id="defect_catogery"
+              style="border-radius: 5px"
+              onchange="addDefectSubDefectSwitch()"
+            >
+              <option
+                value="defect"
+                style="background-color: black; color: white"
+                id="defect_option"
+              >
+                DEFECT
+              </option>
+              <option
+                value="subDefect"
+                style="background-color: black; color: white"
+                id="SubDefect_option"
+              >
+                SUB-DEFECT
+              </option>
+            </select>
+            <div id="addDefectsInput">
+              <div class="select_addOptions_container" style="display: none;">
+                <p style="font-weight: 500">Select Parent Defect</p>
+                <select class="add" id="selected_parent_defect" style="border-radius: 5px">
+                  <% for (let i=0; i < Object.keys(defectObject).length; i++){%>
+                    <option value="<%= Object.keys(defectObject)[i] %>"><%= Object.keys(defectObject)[i] %></option>
+                  <%}%>
+                </select>
+              </div>
+              <div class="add_inputOptions_container" id="add_input_defect">
+                <p id='add_input_defect_section' style="font-weight: 500">Select Defect</p>
+                <select
+                  type="text"
+                  value=""
+                  id="select_defect"
+                  style="border-radius: 5px; text-align: center"
+                >
+                  <% for (let i=0; i < defectOptions.length; i++){%>
+                    <option value="<%= defectOptions[i].defect %>"><%= defectOptions[i].defect %></option>
+                  <%}%>
+                </select>
+              </div>
+              <div class="add_inputOptions_container" id="add_input_sub_defect" style="display: none;" >
+                <p id='add_input_defect_section' style="font-weight: 500">Select Sub-Defect</p>
+                <select
+                  type="text"
+                  value=""
+                  id="select_sub_defect"
+                  style="border-radius: 5px; text-align: center"
+                >
+                <% for (let i=0; i < subDefectOptions.length; i++){%>
+                  <option value="<%= subDefectOptions[i].sub_defect %>"><%= subDefectOptions[i].sub_defect %></option>
+                <%}%>
+                </select>
+              </div>
+            </div>
+            <div
+              id="addDefectsErrorMsg"
+              style="color: #ff0000"
+            >
+
+            </div>
+            <div id="addDefectsButton">
+              <button
+                style="display: block"
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="validate()"
+              >
+                Add
+              </button>
+              <button
+                style="display: block"
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="(() => {document.getElementById('addDefectsDivision').style.visibility = 'hidden'})()"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="addDefectsDivisionEnsure">
+        <div class="addDefectsEnsureModalContent">
+          <div
+            id="addDefectsDivisionEnsureHolder"
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <p style="font-size: large; font-weight: 600">
+              Are you sure want to Add ?
+            </p>
+            <div id="addDefectsEnsureButton">
+              <button
+                style="display: block"
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="add()"
+              >
+                Add
+              </button>
+              <button
+                style="display: block"
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="(() => {document.getElementById('addDefectsDivisionEnsure').style.visibility = 'hidden'})()"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="addDefectsDivisionSuccess">
+        <div class="addDefectsDivisionSuccessModalContent">
+          <div id="addDefectsFinalDivisionHolder" style="display: flex;
+          width: 90%; flex-direction: column; gap: 1rem;">
+            <p
+              style="
+                font-weight: 700;
+                margin: 1%;
+                padding: 1%;
+                font-size: large;
+              "
+              id="addDefectsFinalMessage"
+            ></p>
+            <div>
+              <button
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium 
+                rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="(() => document.getElementById('updateSectionIIIForm').submit())()"
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- !........... Popups for Editing of category........... -->
+      <div id="editZonesDivision">
+        <div class="editZonesModalContent">
+          <div id="editZonesDivisionHolder">
+            <p
+              style="
+                font-weight: 700;
+                margin: 1%;
+                padding: 1%;
+                font-size: large;
+              "
+            >
+              Edit Zone
+            </p>
+            <div id="select_editing_zone_division">
+              <p style="font-weight: 500">Select Zone:</p>
+              <select
+                id="select_editing_zone"
+                style="border-radius: 5px"
+              >
+                <% for(let i=0; i<Object.keys(zoneObject).length; i++){ %>
+                  <option value="<%= Object.keys(zoneObject)[i] %>"><%= Object.keys(zoneObject)[i] %></option>
+                <% } %>
+              </select>
+            </div>
+            <div id="select_updating_zone_division">
+              <p style="font-weight: 500">Edit Zone:</p>
+              <input type="number" id="input_updating_zone" >
+            </div>
+            <div
+              id="editZonesErrorMsg"
+              style="color: #ff0000"
+            >
+
+            </div>
+            <div id="editZonesButton">
+              <button
+                style="display: block"
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="validateEditingZones()"
+              >
+                Edit
+              </button>
+              <button
+                style="display: block"
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="(() => {document.getElementById('editZonesDivision').style.visibility = 'hidden'})()"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="editZonesDivisionEnsure">
+        <div class="editZonesEnsureModalContent">
+          <div
+            id="editZonesDivisionEnsureHolder"
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <p style="font-size: large; font-weight: 600">
+              Are you sure want to Edit ?
+            </p>
+            <div id="editZonesEnsureButton">
+              <button
+                style="display: block"
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="editZone()"
+              >
+                Edit
+              </button>
+              <button
+                style="display: block"
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="(() => {document.getElementById('editZonesDivisionEnsure').style.visibility = 'hidden'})()"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="editZonesDivisionSuccess">
+        <div class="editZonesDivisionSuccessModalContent">
+          <div id="editZonesFinalDivisionHolder" style="display: flex;
+          width: 90%; flex-direction: column; gap: 1rem;">
+            <p
+              style="
+                font-weight: 700;
+                margin: 1%;
+                padding: 1%;
+                font-size: large;
+              "
+              id="editZonesFinalMessage"
+            ></p>
+            <div>
+              <button
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium 
+                rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="(() => document.getElementById('updateSectionIIIForm').submit())()"
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-content">
+        <div id="defect_container">
+          <div class="title">Defect: </div> 
+          <select id="select_defect_for_view" class="select_defect_sub_defect" onchange="generateSubDefect(event)">
+            <% for(let i=0; i<Object.keys(defectObject).length; i++){%>
+            <option value="<%= Object.keys(defectObject)[i] %>"><%= Object.keys(defectObject)[i] %></option>
+            <% } %>
+          </select>
+        </div>
+        <div id="sub_defect_container">
+          <div class="title">Sub-Defect: </div>
+          <select id="select_sub_defect_for_view" class="select_defect_sub_defect">
+            <% if(Object.keys(defectObject).length > 0){ 
+              for(let i=0; i < Object.keys(defectObject[Object.keys(defectObject)[0]]).length; i++){ %>
+                <option value="<%= Object.keys(defectObject[Object.keys(defectObject)[0]])[i] %>"><%= Object.keys(defectObject[Object.keys(defectObject)[0]])[i] %></option>
+            <% } } %>
+          </select>
+        </div>
+      </div>
+      <div id="upload_image_container">
+        <div class="flex-col items-center justify-center gap-3">
+          <h1 class="update_title">Upload Sub-Category Image</h1>
+          <div class="mt-2 mb-1 w-76 flex justify-center items-center gap-3 upload_image_sub_container">
+            <input
+              class="relative block w-50 min-w-0 flex-auto cursor-pointer rounded border border-solid border-neutral-300 bg-white bg-clip-padding px-3 py-1.5 text-l font-normal text-neutral-700 outline-none transition duration-300 ease-in-out file:-mx-3 file:-my-1.5 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-1.5 file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[margin-inline-end:0.75rem] file:[border-inline-end-width:1px] hover:file:bg-neutral-200 focus:border-primary focus:bg-white focus:text-neutral-700 focus:shadow-[0_0_0_1px] focus:shadow-primary focus:outline-none dark:bg-transparent dark:text-neutral-200 dark:focus:bg-transparent"
+              id="fileInput"
+              type="file" />
+            <button
+              type="button"
+              class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out"
+              onclick="validateImage()"
+            >
+              Upload
+            </button>
+          </div>
+          <div
+            id="imageErrorMsg"
+            style="color: #ff0000"
+          >
+          </div>
+        </div>
+      </div>
+      <div id="image_container">
+        <div id="zone_container">
+          <% for(let i=0; i<Object.keys(zoneObject).length; i++){ %>
+          <div id="z<%= Object.keys(zoneObject)[i] %>" class="input_container">
+            <input type="number" inputmode="numeric" min="1" class="input_zone">
+            <div class="zone-number">
+              <%= Object.keys(zoneObject)[i] %>
+            </div>
+          </div>
+          <%}%>
+        </div>
+      </div>
+
+      <!-- ! Image Popups -->
+
+      <div id="imageUploadDivisionEnsure">
+        <div class="imageUploadEnsureModalContent">
+          <div
+            id="imageUploadDivisionEnsureHolder"
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <p style="font-size: large; font-weight: 600">
+              Are you sure want to Upload ?
+            </p>
+            <div id="imageUploadEnsureButton">
+              <button
+                style="display: block"
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="uploadImage()"
+              >
+                Upload
+              </button>
+              <button
+                style="display: block"
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="(() => {document.getElementById('imageUploadDivisionEnsure').style.visibility = 'hidden'})()"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="imageUploadDivisionSuccess">
+        <div class="imageUploadDivisionSuccessModalContent">
+          <div id="imageUploadFinalDivisionHolder" style="display: flex;
+          width: 90%; flex-direction: column; gap: 1rem;">
+            <p
+              style="
+                font-weight: 700;
+                margin: 1%;
+                padding: 1%;
+                font-size: large;
+              "
+              id="imageUploadFinalMessage"
+            ></p>
+            <div>
+              <button
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium 
+                rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="(() => document.getElementById('updateSectionIIIForm').submit())()"
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--! Zone Section-->
+      <!-- !........... Popups for Adding Zones........... -->
+      <div id="addZonesDivision">
+        <div class="addZonesModalContent">
+          <div id="addZonesDivisionHolder">
+            <p
+              style="
+                font-weight: 700;
+                margin: 1%;
+                padding: 1%;
+                font-size: large;
+              "
+            >
+              Add Zone
+            </p>
+            <div id="addZonesInput">
+              <p style="font-weight: 500">Enter Zone: </p>
+              <input type="number" name="zone_number" id="add_zone_input" style="border-radius: 5px;" min="1">
+            </div>
+            <div
+              id="addZonesErrorMsg"
+              style="color: #ff0000"
+            >
+            </div>
+            <div id="addZonesButton">
+              <button
+                style="display: block"
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="validateAddingZones()"
+              >
+                Add
+              </button>
+              <button
+                style="display: block"
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="(() => {document.getElementById('addZonesDivision').style.visibility = 'hidden'})()"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="addZonesDivisionEnsure">
+        <div class="addZonesEnsureModalContent">
+          <div
+            id="addZonesDivisionEnsureHolder"
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <p style="font-size: large; font-weight: 600">
+              Are you sure want to Add ?
+            </p>
+            <div id="addZonesEnsureButton">
+              <button
+                style="display: block"
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="addZone()"
+              >
+                Add
+              </button>
+              <button
+                style="display: block"
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="(() => {document.getElementById('addZonesDivisionEnsure').style.visibility = 'hidden'})()"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="addZonesDivisionSuccess">
+        <div class="addZonesDivisionSuccessModalContent">
+          <div id="addZonesFinalDivisionHolder" style="display: flex;
+          width: 90%; flex-direction: column; gap: 1rem;">
+            <p
+              style="
+                font-weight: 700;
+                margin: 1%;
+                padding: 1%;
+                font-size: large;
+              "
+              id="addZonesFinalMessage"
+            ></p>
+            <div>
+              <button
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium 
+                rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="(() => document.getElementById('updateSectionIIIForm').submit())()"
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ! Popups for deleting zone -->
+      <div id="removeZonesDivision">
+        <div class="removeZonesModalContent">
+          <div id="removeZonesDivisionHolder">
+            <p
+              style="
+                font-weight: 700;
+                margin: 1%;
+                padding: 1%;
+                font-size: large;
+              "
+            >
+              Remove Zone
+            </p>
+            <div id="removeZonesInput">
+              <p>Select Zone: </p>
+              <select id="delete_zone_input" style="border-radius: 5px;">
+                <% for(let i=0; i<Object.keys(zoneObject).length; i++){%>
+                  <option value="<%= Object.keys(zoneObject)[i] %>"><%= Object.keys(zoneObject)[i] %></option>
+                <% } %>
+              </select>
+            </div>
+            <div
+              id="removeZonesErrorMsg"
+              style="color: #ff0000"
+            >
+            </div>
+            <div id="removeZonesButton">
+              <button
+                style="display: block"
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="validateDeletingZones()"
+              >
+                Remove
+              </button>
+              <button
+                style="display: block"
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="(() => {document.getElementById('removeZonesDivision').style.visibility = 'hidden'})()"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="removeZonesDivisionEnsure">
+        <div class="removeZonesEnsureModalContent">
+          <div
+            id="removeZonesDivisionEnsureHolder"
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <p style="font-size: large; font-weight: 600">
+              Are you sure want to remove ?
+            </p>
+            <div id="removeZonesEnsureButton">
+              <button
+                style="display: block"
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="deleteZone()"
+              >
+                Remove
+              </button>
+              <button
+                style="display: block"
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="(() => {document.getElementById('removeZonesDivisionEnsure').style.visibility = 'hidden'})()"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="removeZonesDivisionSuccess">
+        <div class="removeZonesDivisionSuccessModalContent">
+          <div id="removeZonesFinalDivisionHolder" style="display: flex;
+          width: 90%; flex-direction: column; gap: 1rem;">
+            <p
+              style="
+                font-weight: 700;
+                margin: 1%;
+                padding: 1%;
+                font-size: large;
+              "
+              id="removeZonesFinalMessage"
+            ></p>
+            <div>
+              <button
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium 
+                rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="(() => document.getElementById('updateSectionIIIForm').submit())()"
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="drop-target">
+        <div class="zones_update_section">
+          <div class="width_zones_container">
+            <div class="width_container">
+              <label for="width">Width:</label>
+              <input type="number" class="update_input"  id="width" onchange="changeWidth(event)" value="0" min="0"> %
+            </div>
+            <div class="zones_container">
+              <label for="zones">Select Zone:</label>
+              <select name="" id="zones" onchange="switchZone()">
+                <% for(let i=0; i<Object.keys(zoneObject).length; i++){ %>
+                  <option value="<%= Object.keys(zoneObject)[i] %>"><%= Object.keys(zoneObject)[i] %></option>
+                <%}%>
+              </select>
+            </div>
+          </div>
+          <div class="padding_container">
+            <div style="text-align: center; font-weight: 700;">Padding</div>
+            <div class="input_padding">
+              <div class="Padding_subContainer_1">
+                <div class="padding padding_top">
+                  <label for="top_padding">Top:</label>
+                  <input type="number" class="update_input" id="top_padding" value="0" min="0" onchange="changeTopPadding(event)"> %
+                </div>
+                <div class="padding padding_bottom">
+                  <label for="bottom_padding">Bottom:</label>
+                  <input type="number" class="update_input" value="0" min="0" id="bottom_padding" onchange="changeBottomPadding(event)"> %
+                </div>
+              </div>
+              <div class="Padding_subContainer_2">
+                <div class="padding padding_left">
+                  <label for="left_padding">Left:</label>
+                  <input type="number" class="update_input" value="0" min="0" id="left_padding" onchange="changeLeftPadding(event)"> %
+                </div>
+                <div class="padding padding_right">
+                  <label for="right_padding">Right:</label>
+                  <input type="number" class="update_input" value="0" min="0" id="right_padding" onchange="changeRightPadding(event)"> %
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dir_btns_container">
+          <div class="dir_btns">
+            <button id="up" 
+             class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium 
+             rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2" onmousedown="mouseHoldingEvent(event)" onmouseup="mouseLeavingEvent()" onmouseleave="mouseLeavingEvent()" ontouchstart="mouseHoldingEvent(event)" ontouchend="mouseLeavingEvent()" ontouchcancel="mouseLeavingEvent()">U</button>
+            <div class="left_right_btn">
+              <button id="left" 
+              class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium 
+              rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2" onmousedown="mouseHoldingEvent(event)" onmouseup="mouseLeavingEvent()" onmouseleave="mouseLeavingEvent()" ontouchstart="mouseHoldingEvent(event)" ontouchend="mouseLeavingEvent()" ontouchcancel="mouseLeavingEvent()">L</button>
+              <button id="right" 
+              class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2" onmousedown="mouseHoldingEvent(event)" onmouseup="mouseLeavingEvent()" onmouseleave="mouseLeavingEvent()" ontouchstart="mouseHoldingEvent(event)" ontouchend="mouseLeavingEvent()" ontouchcancel="mouseLeavingEvent()">R</button>
+            </div>
+            <button id="down"
+            class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium 
+            rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 " onmousedown="mouseHoldingEvent(event)" onmouseup="mouseLeavingEvent()" onmouseleave="mouseLeavingEvent()" ontouchstart="mouseHoldingEvent(event)" ontouchend="mouseLeavingEvent()" ontouchcancel="mouseLeavingEvent()">D</button>
+          </div>
+          <div class="save-reset_btn_container">
+            <button id="save"class=" text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium 
+            rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 " onclick="validateStyles(event)">SAVE</button>
+            <button id="reset" class=" text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium 
+            rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 " onclick="resetStyles()">RESET</button>
+          </div>       
+        </div>  
+      </div>
+
+      <!-- ! Popups for updateZones -->
+      <div id="updateZonesDivisionEnsure">
+        <div class="updateZonesEnsureModalContent">
+          <div
+            id="updateZonesDivisionEnsureHolder"
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <p style="font-size: large; font-weight: 600">
+              Are you sure want to save ?
+            </p>
+            <div id="updateZonesEnsureButton">
+              <button
+                style="display: block"
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="saveStyles()"
+              >
+                Save
+              </button>
+              <button
+                style="display: block"
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="(() => {document.getElementById('updateZonesDivisionEnsure').style.visibility = 'hidden'})()"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="updateZonesDivisionSuccess">
+        <div class="updateZonesDivisionSuccessModalContent">
+          <div id="updateZonesFinalDivisionHolder" style="display: flex;
+          width: 90%; flex-direction: column; gap: 1rem;">
+            <p
+              style="
+                font-weight: 700;
+                margin: 1%;
+                padding: 1%;
+                font-size: large;
+              "
+              id="updateZonesFinalMessage"
+            ></p>
+            <div>
+              <button
+                class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium 
+                rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                onclick="(() => document.getElementById('updateSectionIIIForm').submit())()"
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <form action="/follower" id="followerForm" method="post">
+          <input
+            type="hidden"
+            id="currentUser"
+            name="currentUser"
+            value="<%= currentUser %>"
+          />
+          <input
+            type="hidden"
+            id="currentEmpID"
+            name="currentEmpID"
+            value="<%= currentEmpID %>"
+          />
+          <input
+            type="hidden"
+            id="companyName"
+            name="companyName"
+            value="<%= companyName %>"
+          />
+          <input type="hidden" class="token" name="token" value="" />
+        </form>
+        <form action="updateSection-II" method="post" id="updateSectionIIForm">
+          <input
+            type="hidden"
+            id="currentUser"
+            name="currentUser"
+            value="<%= currentUser %>"
+          />
+          <input
+            type="hidden"
+            id="currentEmpID"
+            name="currentEmpID"
+            value="<%= currentEmpID %>"
+          />
+          <input
+            type="hidden"
+            id="companyName"
+            name="companyName"
+            value="<%= companyName %>"
+          />
+          <input
+            type="hidden"
+            id="selectedCategory"
+            name="selectedCategory"
+            value="<%= selectedCategory %>"
+          />
+        </form>
+        <form action="/updateSection-III" method="post" id="updateSectionIIIForm">
+          <input type="hidden" id="currentUser" name="currentUser" value="<%= currentUser %>" />
+          <input type="hidden" id="currentEmpID" name="currentEmpID" value="<%= currentEmpID %>" />
+          <input
+            type="hidden"
+            id="companyName"
+            name="companyName"
+            value="<%= companyName %>"
+          />
+          <input
+            type="hidden"
+            id="selectedCategory"
+            name="selectedCategory"
+            value="<%= selectedCategory %>"
+          />
+          <input
+            type="hidden"
+            id="selectedSubCategory"
+            name="selectedSubCategory"
+            value="<%= selectedSubCategory %>"
+          />
+          <input type="hidden" class="token" name="token" value="" />
+        </form>
+      </div>
+    </div>
+
+    <script>
+      console.log('token: ', localStorage.getItem('token'));
+
+      const tokenElements = document.getElementsByClassName('token');
+
+      Object.values(tokenElements).map((tokenElement) => {
+        tokenElement.value = localStorage.getItem('token');
+      });
+
+      let defectObj = <%- JSON.stringify(defectObject) %>
+      let zoneObject = <%- JSON.stringify(zoneObject) %>
+
+      Object.keys(zoneObject).map( (zone) => {
+        document.getElementById(`z${zone}`).style.width = `${zoneObject[zone].width}%`
+        document.getElementById(`z${zone}`).style.top = `${zoneObject[zone].top_position}%`
+        document.getElementById(`z${zone}`).style.bottom = `${zoneObject[zone].bottom_position}%`
+        document.getElementById(`z${zone}`).style.left = `${zoneObject[zone].left_position}%`
+        document.getElementById(`z${zone}`).style.right =`${zoneObject[zone].right_position}%`
+        document.getElementById(`z${zone}`).style.paddingTop =`${zoneObject[zone].top_padding}%`
+        document.getElementById(`z${zone}`).style.paddingBottom = `${zoneObject[zone].bottom_padding}%`
+        document.getElementById(`z${zone}`).style.paddingRight = `${zoneObject[zone].right_padding}%`
+        document.getElementById(`z${zone}`).style.paddingLeft =`${zoneObject[zone].left_padding}%`
+      })
+
+      if(Object.keys(zoneObject).length > 0){
+        let firstZone = zoneObject[Object.keys(zoneObject)[0]]
+        document.getElementById('width').value = firstZone.width
+        document.getElementById('top_padding').value = firstZone.top_padding
+        document.getElementById('bottom_padding').value = firstZone.bottom_padding
+        document.getElementById('left_padding').value = firstZone.left_padding
+        document.getElementById('right_padding').value = firstZone.right_padding
+      }
+
+      const mainDefectId = Object.keys(defectObj);
+
+      const defectListId = Object.keys(defectObj);
+      // console.log('defectListId:',defectListId.length)
+
+
+      const ImageName = "<%= selectedCategory.replace(/ /g,'_') %>"+'_'+"<%= selectedSubCategory.replace(/ /g,'_') %>"+'.jpg'
+      console.log(
+        `url(./uploads/${ImageName})`
+      );
+
+      document.getElementById('zone_container').style.backgroundImage =  `url(./uploads/${ImageName})`
+
+      function generateSubDefect(event){
+        const select_sub_defect_for_view = document.getElementById('select_sub_defect_for_view')
+
+        var child = select_sub_defect_for_view.lastElementChild; 
+        while (child) {
+          select_sub_defect_for_view.removeChild(child);
+            child = select_sub_defect_for_view.lastElementChild;
+        }
+
+        Object.keys(defectObj[event.target.value]).map( (subDefect) => {
+          const option = document.createElement('option')
+          option.value = subDefect
+          option.innerHTML = subDefect
+          select_sub_defect_for_view.appendChild(option)
+        })
+        
+      }
+
+      function addDefectSubDefectSwitch(){
+        const chosenValue = document.getElementById('defect_catogery').value
+
+        if(chosenValue == 'defect'){
+          document.getElementsByClassName('select_addOptions_container')[0].style.display = 'none'
+          document.getElementById('add_input_defect').style.display = 'block'
+          document.getElementById('add_input_sub_defect').style.display = 'none'
+        }else{
+          document.getElementsByClassName('select_addOptions_container')[0].style.display = 'block'
+          document.getElementById('add_input_defect').style.display = 'none'
+          document.getElementById('add_input_sub_defect').style.display = 'block'
+        }
+      }
+
+      function deleteDefectSubDefectSwitch(){
+        const chosenValue = document.getElementById('remove_category_select').value
+
+        if(chosenValue == 'defect'){
+          document.getElementsByClassName('select_updateDefect_container')[0].style.display = 'none'
+          document.getElementById('remove_input_defect').style.display = 'block'
+          document.getElementById('remove_sub_defect_input').style.display = 'none'
+        }else{
+          document.getElementsByClassName('select_updateDefect_container')[0].style.display = 'block'
+          document.getElementById('remove_input_defect').style.display = 'none'
+          document.getElementById('remove_sub_defect_input').style.display = 'block'
+        }
+      }
+
+      function remove_changeSubDefect(){
+        const chosenValue = document.getElementById('remove_category_select').value
+        const selectedDefect = document.getElementById('remove_parent_defect_select').value
+
+        if(chosenValue != 'defect'){
+          const remove_sub_defect_select = document.getElementById('remove_sub_defect_select')
+
+          // deleting old child elements
+          var child = remove_sub_defect_select.lastElementChild; 
+          while (child) {
+            remove_sub_defect_select.removeChild(child);
+            child = remove_sub_defect_select.lastElementChild;
+          }
+
+          // adding new child elements
+          Object.keys(defectObj[selectedDefect]).map( (sub_defect) => {
+            const option = document.createElement('option')
+            option.className = 'Defects_options'
+            option.style.backgroundColor = 'black'
+            option.style.color = '#eeeeee'
+            option.style.borderRadius = '5px'
+            option.value = sub_defect
+            option.innerHTML = sub_defect
+            option.id = sub_defect.replace(/ /g,'_') + '-main-defect-button'
+            remove_sub_defect_select.appendChild(option)
+          })
+        }
+      }
+
+      function validate(){
+
+        const chosenValue = document.getElementById('defect_catogery').value
+        console.log(defectObj)
+
+        if(chosenValue == 'defect'){
+          const input_value = document.getElementById('select_defect').value
+          const defectList = Object.keys(defectObj)
+          let isSectionExistAlready = false
+
+          if(defectList.includes(input_value)){
+            isSectionExistAlready = true
+          }
+
+          if (isSectionExistAlready) {
+            document.getElementById('addDefectsErrorMsg').innerHTML =
+              'Defect already exists';
+
+            setTimeout(() => {
+              document.getElementById('addDefectsErrorMsg').innerHTML = '';
+            }, 3000);
+          } else {
+            document.getElementById(
+              'addDefectsDivisionEnsure'
+            ).style.visibility = 'visible';
+          }
+        }else{
+          const input_value = document.getElementById('select_sub_defect').value
+          const subDefectList = Object.keys(defectObj[document.getElementById('selected_parent_defect').value])
+          let isSectionExistAlready = false
+
+          if(subDefectList.includes(input_value)){
+            isSectionExistAlready = true
+          }
+
+          if (isSectionExistAlready) {
+            document.getElementById('addDefectsErrorMsg').innerHTML =
+              'Sub-Defect already exists';
+
+            setTimeout(() => {
+              document.getElementById('addDefectsErrorMsg').innerHTML = '';
+            }, 3000);
+          } else {
+            document.getElementById(
+              'addDefectsDivisionEnsure'
+            ).style.visibility = 'visible';
+          }
+        } 
+      }
+
+      function remove_validate(){
+        const remove_sub_defect_select = document.getElementById('remove_sub_defect_select').value
+        const remove_defect_select = document.getElementById('remove_defect_select').value
+        const remove_parent_defect_select = document.getElementById('remove_parent_defect_select').value
+
+        const remove_category_select = document.getElementById('remove_category_select').value
+
+        if(remove_category_select == 'defect'){
+          if(!remove_defect_select){
+            document.getElementById('removeDefectsErrorMsg').innerHTML = 'Select defect'
+
+            setTimeout( () => {
+              document.getElementById('removeDefectsErrorMsg').innerHTML = ''
+            },3000)
+          }else{
+            document.getElementById('removeDefectsDivisionEnsure').style.visibility = 'visible'
+          }
+        }else{
+          if(!remove_parent_defect_select){
+            document.getElementById('removeDefectsErrorMsg').innerHTML = 'Select defect'
+
+            setTimeout( () => {
+              document.getElementById('removeDefectsErrorMsg').innerHTML = ''
+            },3000)
+          } else if( !remove_sub_defect_select) {
+            document.getElementById('removeDefectsErrorMsg').innerHTML = 'Select sub-defect'
+            
+            setTimeout( () => {
+              document.getElementById('removeDefectsErrorMsg').innerHTML = ''
+            },3000)
+          } else{
+            document.getElementById('removeDefectsDivisionEnsure').style.visibility = 'visible'
+          }
+        }
+      }
+
+      async function add(){
+        const chosenValue = document.getElementById('defect_catogery').value
+
+        if (chosenValue == 'defect'){
+          const addingDefect = document.getElementById('select_defect').value
+          
+          const response = await fetch('/addDefect',{
+            method: 'POST',
+            headers:{
+              'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+              currentUser: '<%= currentUser %>',
+              currentEmpID: '<%= currentEmpID %>',
+              companyName: '<%= companyName %>',
+              selectedCategory: '<%= selectedCategory %>',
+              selectedSubCategory: '<%= selectedSubCategory %>',
+              addingDefect,
+            })
+          })
+
+          if(response.status == 200){
+            document.getElementById('addDefectsDivisionSuccess').style.visibility = 'visible'
+            document.getElementById('addDefectsFinalMessage').innerHTML = 'Defect Added Successfully'
+          }else{
+            document.getElementById('addDefectsDivisionSuccess').style.visibility = 'visible'
+            document.getElementById('addDefectsFinalMessage').innerHTML = 'Error while adding defect. Try Again!'
+          }
+        }else{
+          const addingSubDefect = document.getElementById('select_sub_defect').value
+          
+          const response = await fetch('/addSubDefect',{
+            method: 'POST',
+            headers:{
+              'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+              currentUser: '<%= currentUser %>',
+              currentEmpID: '<%= currentEmpID %>',
+              companyName: '<%= companyName %>',
+              selectedCategory: '<%= selectedCategory %>',
+              selectedSubCategory: '<%= selectedSubCategory %>',
+              addingDefect: document.getElementById('selected_parent_defect').value,
+              addingSubDefect
+            })
+          })
+
+          if(response.status == 200){
+            document.getElementById('addDefectsDivisionSuccess').style.visibility = 'visible'
+            document.getElementById('addDefectsFinalMessage').innerHTML = 'Sub-Defect Added Successfully'
+          }else{
+            document.getElementById('addDefectsDivisionSuccess').style.visibility = 'visible'
+            document.getElementById('addDefectsFinalMessage').innerHTML = 'Error while adding sub-defect. Try Again!'
+          }
+        }
+      }
+
+      async function remove(){
+        const remove_sub_defect_select = document.getElementById('remove_sub_defect_select').value
+        const remove_defect_select = document.getElementById('remove_defect_select').value
+        const remove_parent_defect_select = document.getElementById('remove_parent_defect_select').value
+
+        const remove_category_select = document.getElementById('remove_category_select').value
+
+        if(remove_category_select == 'defect'){
+          const response = await fetch('/removeDefect',{
+            method: 'POST',
+            headers: {
+              'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+              currentUser: '<%= currentUser %>',
+              currentEmpID: '<%= currentEmpID %>',
+              companyName: '<%= companyName %>',
+              selectedCategory: '<%= selectedCategory %>',
+              selectedSubCategory: '<%= selectedSubCategory %>',
+              removingDefect: remove_defect_select,
+            })
+          })
+
+          if(response.status == 200){
+            document.getElementById('deleteDefectsFinalMessage').innerHTML = 'Defect deleted successfully'
+            document.getElementById('deleteDefectsDivisionSuccess').style.visibility = 'visible'
+          }else{
+            document.getElementById('deleteDefectsFinalMessage').innerHTML = 'Error while deleting defect. Try Again!'
+            document.getElementById('deleteDefectsDivisionSuccess').style.visibility = 'visible'
+          }
+        } else {
+          const response = await fetch('/removeSubDefect',{
+            method: 'POST',
+            headers: {
+              'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+              currentUser: '<%= currentUser %>',
+              currentEmpID: '<%= currentEmpID %>',
+              companyName: '<%= companyName %>',
+              selectedCategory: '<%= selectedCategory %>',
+              selectedSubCategory: '<%= selectedSubCategory %>',
+              removingDefect: remove_parent_defect_select,
+              removingSubDefect: remove_sub_defect_select
+            })
+          }) 
+
+          if(response.status == 200){
+            document.getElementById('deleteDefectsFinalMessage').innerHTML = 'Sub-Defect deleted successfully'
+            document.getElementById('deleteDefectsDivisionSuccess').style.visibility = 'visible'
+          }else{
+            document.getElementById('deleteDefectsFinalMessage').innerHTML = 'Error while deleting sub-defect. Try Again!'
+            document.getElementById('deleteDefectsDivisionSuccess').style.visibility = 'visible'
+          }
+        }
+      }
+
+      function imageValidate(event){
+        const saveImageForm = document.getElementById('saveImageForm');
+        if (!saveImageForm.checkValidity()) {
+          if (saveImageForm.reportValidity) {
+            saveImageForm.reportValidity();
+          } else {
+            alert(msg.ieErrorForm);
+          }
+        } else {
+          saveImage(event)
+        }
+      }
+
+      function saveImage(event){  
+        console.log(event.target.previousElementSibling)
+      }
+
+      async function validateAddingZones(){
+        const add_zone_input = document.getElementById('add_zone_input').value
+
+        if(!add_zone_input){
+          document.getElementById('addZonesErrorMsg').innerHTML = 'Zone input empty'
+
+          setTimeout(() => {
+            document.getElementById('addZonesErrorMsg').innerHTML = ''
+          }, 3000);
+        }else{
+          // check zones already exists
+          if(add_zone_input < 1){
+            document.getElementById('addZonesErrorMsg').innerHTML = 'Zones cannot be negative'
+
+            setTimeout(() => {
+            document.getElementById('addZonesErrorMsg').innerHTML = ''
+          }, 3000);
+          }else{
+            const response = await fetch('/addZoneChecker', {
+              method: 'POST',
+              headers: {
+                'Content-type': 'application/json'
+              },
+              body: JSON.stringify({
+                zone: add_zone_input
+              })
+            })
+
+            if( response.status == 200){
+              document.getElementById('addZonesDivisionEnsure').style.visibility = 'visible'
+            }else if( response.status == 409){
+              document.getElementById('addZonesErrorMsg').innerHTML = 'Zone already exists'
+
+              setTimeout(() => {
+                document.getElementById('addZonesErrorMsg').innerHTML = ''
+              }, 3000);
+            }else if( response.status == 400){
+              document.getElementById('addZonesErrorMsg').innerHTML = 'Server Error, Try again!'
+
+              setTimeout(() => {
+                document.getElementById('addZonesErrorMsg').innerHTML = ''
+              }, 3000);
+            }
+          }
+        }
+      }
+
+      async function addZone(){
+        const add_zone_input = document.getElementById('add_zone_input').value
+
+        const response = await fetch('/addZone', {
+          'method': 'POST',
+          headers: {
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            zone: add_zone_input,
+            category: '<%= selectedCategory %>',
+            sub_category: '<%= selectedSubCategory %>',
+          })
+        })
+
+        if(response.status == 200){
+          document.getElementById('addZonesFinalMessage').innerHTML = 'Zone added successfully'
+          document.getElementById('addZonesDivisionSuccess').style.visibility = 'visible'
+        }else{
+          document.getElementById('addZonesFinalMessage').innerHTML = 'Error while adding zone. Try Again!'
+          document.getElementById('addZonesDivisionSuccess').style.visibility = 'visible'
+        }
+      }
+
+
+      async function validateDeletingZones(){
+        const delete_zone_input = document.getElementById('delete_zone_input').value
+
+        if(!delete_zone_input){
+          document.getElementById('removeZonesErrorMsg').innerHTML = 'Zones not available'
+
+          setTimeout(() => {
+            document.getElementById('removeZonesErrorMsg').innerHTML = ''
+          }, 3000);
+        }else{
+          document.getElementById('removeZonesDivisionEnsure').style.visibility = 'visible'
+        }
+      }
+
+      async function deleteZone(){
+        const delete_zone_input = document.getElementById('delete_zone_input').value
+
+        const response = await fetch('/removeZone', {
+          'method': 'POST',
+          headers: {
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            zone: delete_zone_input,
+            category: '<%= selectedCategory %>',
+            sub_category: '<%= selectedSubCategory %>',
+          })
+        })
+
+        if(response.status == 200){
+          document.getElementById('removeZonesFinalMessage').innerHTML = 'Zone deleted successfully'
+          document.getElementById('removeZonesDivisionSuccess').style.visibility = 'visible'
+        }else{
+          document.getElementById('removeZonesFinalMessage').innerHTML = 'Error while deleting zone. Try Again!'
+          document.getElementById('removeZonesDivisionSuccess').style.visibility = 'visible'
+        }
+      }
+
+      async function validateEditingZones(){
+        const input_updating_zone = document.getElementById('input_updating_zone').value
+
+        if(!input_updating_zone){
+          document.getElementById('editZonesErrorMsg').innerHTML = 'Zone input empty'
+
+          setTimeout(() => {
+            document.getElementById('editZonesErrorMsg').innerHTML = ''
+          }, 3000);
+        }else{
+          // check zones already exists
+          if(input_updating_zone < 1){
+            document.getElementById('editZonesErrorMsg').innerHTML = 'Zones cannot be negative'
+
+            setTimeout(() => {
+            document.getElementById('editZonesErrorMsg').innerHTML = ''
+          }, 3000);
+          }else{
+            const response = await fetch('/addZoneChecker', {
+              method: 'POST',
+              headers: {
+                'Content-type': 'application/json'
+              },
+              body: JSON.stringify({
+                zone: input_updating_zone
+              })
+            })
+
+            if( response.status == 200){
+              document.getElementById('editZonesDivisionEnsure').style.visibility = 'visible'
+            }else if( response.status == 409){
+              document.getElementById('editZonesErrorMsg').innerHTML = 'Zone already exists'
+
+              setTimeout(() => {
+                document.getElementById('editZonesErrorMsg').innerHTML = ''
+              }, 3000);
+            }else if( response.status == 400){
+              document.getElementById('editZonesErrorMsg').innerHTML = 'Server Error, Try again!'
+
+              setTimeout(() => {
+                document.getElementById('editZonesErrorMsg').innerHTML = ''
+              }, 3000);
+            }
+          }
+        }
+      }
+      
+      async function editZone(){
+        const select_editing_zone = document.getElementById('select_editing_zone').value
+        const input_updating_zone = document.getElementById('input_updating_zone').value
+
+        const response = await fetch('/editZone', {
+          'method': 'POST',
+          headers: {
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            selectedZone: select_editing_zone,
+            editingZone: input_updating_zone,
+          })
+        })
+
+        if(response.status == 200){
+          document.getElementById('editZonesFinalMessage').innerHTML = 'Zone Edited successfully'
+          document.getElementById('editZonesDivisionSuccess').style.visibility = 'visible'
+        }else{
+          document.getElementById('editZonesFinalMessage').innerHTML = 'Error while editing zone. Try Again!'
+          document.getElementById('editZonesDivisionSuccess').style.visibility = 'visible'
+        }
+      }
+
+      function validateImage(){
+        const fileInput = document.getElementById('fileInput')
+        
+        if(Object.keys(fileInput.files).length == 0){
+          document.getElementById('imageErrorMsg').innerHTML = "Choose an image"
+
+          setTimeout( () => {
+            document.getElementById('imageErrorMsg').innerHTML = ''
+          },3000)
+        }else if(fileInput.files[0].type.split('/')[0] == 'image'){
+          document.getElementById('imageUploadDivisionEnsure').style.visibility = 'visible'
+        }else{
+          document.getElementById('imageErrorMsg').innerHTML = 'File chosen is not an image'
+
+          setTimeout( () => {
+            document.getElementById('imageErrorMsg').innerHTML = ''
+          },3000)
+        }
+      }
+
+      async function uploadImage(){
+        const fileInput = document.getElementById('fileInput')
+        const updatedFileName= "<%= selectedCategory.replace(/ /g,'_') %>"+'_'+"<%= selectedSubCategory.replace(/ /g,'_') %>"+'.jpg'
+        Object.defineProperty(fileInput.files[0], 'name', {
+          writable: true,
+          value: updatedFileName
+        });
+
+        console.log('fileObject: ', fileInput.files[0])
+        console.log('fileInput: ', fileInput.files[0].name)
+        const modifiedFile = new File([fileInput.files[0]], updatedFileName, {type: fileInput.files[0].type});
+        var formData = new FormData();
+        formData.append("file",modifiedFile);
+        formData.append("fileName", updatedFileName)
+        
+
+        const response = await fetch('/uploadImage', {
+          method: 'POST',
+          body: formData
+        })
+
+        if (response.status == 200) {
+          document.getElementById('imageUploadFinalMessage').innerHTML = 'Image Uploaded successfully'
+          document.getElementById('imageUploadDivisionSuccess').style.visibility = 'visible'
+        } else {
+          document.getElementById('imageUploadFinalMessage').innerHTML = 'Error while uploading Image. Try Again!'
+          document.getElementById('imageUploadDivisionSuccess').style.visibility = 'visible'
+        }
+      }
+
+      function switchZone(){
+        const zone = document.getElementById('zones').value
+
+        document.getElementById('width').value = zoneObject[zone].width
+        document.getElementById('top_padding').value = zoneObject[zone].top_padding
+        document.getElementById('bottom_padding').value = zoneObject[zone].bottom_padding
+        document.getElementById('left_padding').value = zoneObject[zone].left_padding
+        document.getElementById('right_padding').value = zoneObject[zone].right_padding
+
+      }
+
+      function changeWidth(event){
+        const zone = document.getElementById('zones').value
+        document.getElementById(`z${zone}`).style.width = `${event.target.value}%`
+        console.log('value: ',`${event.target.value}%`)
+        console.log('dom: ',document.getElementById(`z${zone}`))
+      }
+
+      var mouseHoldInterval;
+      function mouseHoldingEvent(event){
+        switch(event.target.id){
+          case 'up':  mouseHoldInterval= setInterval(changeTopPosition, 50); break;
+          case 'down': mouseHoldInterval= setInterval(changeBottomPosition, 50); break;
+          case 'left': mouseHoldInterval= setInterval(changeLeftPosition, 50); break;
+          case 'right': mouseHoldInterval= setInterval(changeRightPosition, 50); break;
+        }
+      }
+      
+      function mouseLeavingEvent(){
+        clearInterval(mouseHoldInterval);
+      }
+
+      function changeTopPosition(){
+        const zone = document.getElementById('zones').value
+        let top_position = document.getElementById(`z${zone}`)
+        top_position.style.top = `${Number(top_position.style.top.replace('%',''))-1}%`
+      }
+
+      function changeBottomPosition(){
+        const zone = document.getElementById('zones').value
+        let top_position = document.getElementById(`z${zone}`)
+        top_position.style.top = `${Number(top_position.style.top.replace('%',''))+1}%`
+      }
+
+      function changeLeftPosition(){
+        const zone = document.getElementById('zones').value
+        let left_position = document.getElementById(`z${zone}`)
+        left_position.style.left = `${Number(left_position.style.left.replace('%',''))-1}%`
+      }
+
+      function changeRightPosition(){
+        const zone = document.getElementById('zones').value
+        let left_position = document.getElementById(`z${zone}`)
+        left_position.style.left = `${Number(left_position.style.left.replace('%',''))+1}%`
+      }
+
+      function changeTopPadding(event){
+        const zone = document.getElementById('zones').value
+        let zoneDom= document.getElementById(`z${zone}`)
+        zoneDom.style.paddingTop = `${event.target.value}%`
+      }
+
+      function changeBottomPadding(event){
+        const zone = document.getElementById('zones').value
+        let zoneDom= document.getElementById(`z${zone}`)
+        zoneDom.style.paddingBottom = `${event.target.value}%`
+      }
+
+      function changeLeftPadding(event){
+        const zone = document.getElementById('zones').value
+        let zoneDom= document.getElementById(`z${zone}`)
+        zoneDom.style.paddingLeft = `${event.target.value}%`
+      }
+
+      function changeRightPadding(event){
+        const zone = document.getElementById('zones').value
+        let zoneDom= document.getElementById(`z${zone}`)
+        zoneDom.style.paddingRight = `${event.target.value}%`
+      }
+
+      function validateStyles(){
+        const zone = document.getElementById('zones').value
+        const width = document.getElementById('width').value
+        const top_padding = document.getElementById('top_padding').value
+        const bottom_padding = document.getElementById('bottom_padding').value
+        const left_padding = document.getElementById('left_padding').value
+        const right_padding = document.getElementById('right_padding').value
+
+        if(!zone){
+          document.getElementById('').innerHTML = 'Zones not available'
+          
+          setTimeout(() => {
+            document.getElementById('').innerHTML = ''
+          }, 3000);
+        }else if (width < 0 || top_padding < 0 || bottom_padding < 0 || left_padding < 0 || right_padding < 0){
+          document.getElementById('').innerHTML = 'Values cannot be negative'
+          
+          setTimeout(() => {
+            document.getElementById('').innerHTML = ''
+          }, 3000);
+        }else{
+          document.getElementById('updateZonesDivisionEnsure').style.visibility = 'visible'
+        }
+      }
+
+      async function saveStyles(){
+        const zone = document.getElementById('zones').value
+        const zoneDom = document.getElementById(`z${zone}`)
+        const width = document.getElementById('width').value
+        const top_padding = document.getElementById('top_padding').value
+        const bottom_padding = document.getElementById('bottom_padding').value
+        const left_padding = document.getElementById('left_padding').value
+        const right_padding = document.getElementById('right_padding').value
+        const top_position= Number(zoneDom.style.top.replace('%',''))
+        const bottom_position = Number(zoneDom.style.bottom.replace('%',''))
+        const left_position = Number(zoneDom.style.left.replace('%',''))
+        const right_position = Number(zoneDom.style.right.replace('%',''))
+
+        const response = await fetch('/updateZone',{
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: JSON.stringify({
+            selectedZone: zone,
+            zoneWidth: width,
+            paddingTop: top_padding,
+            paddingBottom: bottom_padding,
+            paddingLeft: left_padding,
+            paddingRight: right_padding,
+            top_position,
+            bottom_position,
+            left_position,
+            right_position
+          })
+        }) 
+
+        if(response.status == 200){
+          document.getElementById('updateZonesFinalMessage').innerHTML = 'Style Updated successfully'
+          document.getElementById("updateZonesDivisionSuccess").style.visibility = 'visible'
+        }else{
+          document.getElementById('updateZonesFinalMessage').innerHTML = 'Error while updating. Try Again!'
+          document.getElementById("updateZonesDivisionSuccess").style.visibility = 'visible'
+        }
+      }
+
+      function resetStyles(){
+        document.getElementById('width').value = 10
+        document.getElementById('top_padding').value = 0
+        document.getElementById('bottom_padding').value = 0
+        document.getElementById('left_padding').value = 0
+        document.getElementById('right_padding').value = 0
+      }
+
+      function logout() {
+        localStorage.removeItem('token');
+        Object.values(tokenElements).map((tokenElement) => {
+          tokenElement.value = '';
+        });
+        document.getElementsByClassName('logoutButton')[0].submit();
+      }
+    </script>
+  </body>
+</html>

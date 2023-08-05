@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Update Section</title>
+    <link rel="stylesheet" href="updateSection.css" />
+    <!-- <link
+      href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+      rel="stylesheet"
+    /> -->
+  <link rel="stylesheet" href="tailwind.min.css">                                    
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="main_container">
+      <!-- !...Header part  which contain user_name,  App_Name and LOGOUT btn  -->
+      <div class="header">
+        <div class="logo_container">
+          <img
+            src="./icons/navBarIcon.png"
+            title="Switch Mode"
+            id="navBarIcon"
+            alt="Menu Bar"
+            style="cursor: pointer; width: 8%; margin: 0.5% 3%"
+          />
+          <div class="heading">Data Entry System</div>
+        </div>
+        <form id="btn" action="/logout" method="get" class="logoutButton">
+          <div class="admin" id="user-mode-name"><%= currentUser %></div>
+          <button
+            type="button"
+            onclick="logout()"
+            style="
+              background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+            "
+            class="button-logout bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+          >
+            LOGOUT
+          </button>
+        </form>
+      </div>
+      <!-- ! ............Side Nav Bar Menu............ -->
+      <div id="navBarDivision">
+        <div
+          id="UserProfileDiv"
+          onmouseover="onmouseoverBGColor(event)"
+          onmouseout="onmouseoutBGColor(event)"
+          onclick="handleFormSubmit(event)"
+        >
+          <div id="user_Profile" class="category">User Profile</div>
+        </div>
+        <div
+          id="DataEntryDiv"
+          onmouseover="onmouseoverBGColor(event)"
+          onmouseout="onmouseoutBGColor(event)"
+          onclick="handleFormSubmit(event)"
+        >
+          <div id="dataEntry" class="category">Data Entry</div>
+        </div>
+        <div
+          id="ReportGenerationDiv"
+          onmouseover="onmouseoverBGColor(event)"
+          onmouseout="onmouseoutBGColor(event)"
+          onclick="handleFormSubmit(event)"
+        >
+          <div id="reportGeneration" class="category">Report Generation</div>
+        </div>
+        <div
+          id="AdministrationDiv"
+          onmouseover="onmouseoverBGColor(event)"
+          onmouseout="onmouseoutBGColor(event)"
+          onclick="handleFormSubmit(event)"
+        >
+          <div id="administration" class="category">Administration</div>
+        </div>
+        <div
+          id="AdminLogDiv"
+          onmouseover="onmouseoverBGColor(event)"
+          onmouseout="onmouseoutBGColor(event)"
+          onclick="handleFormSubmit(event)"
+        >
+          <div id="adminLog" class="category">Admin Logs</div>
+        </div>
+        <div
+          id="DashboardDiv"
+          onmouseover="onmouseoverBGColor(event)"
+          onmouseout="onmouseoutBGColor(event)"
+          onclick="handleFormSubmit(event)"
+        >
+          <div id="activityLog" class="category">Dashboard</div>
+        </div>
+        <div
+          id="UpdateSectionDiv"
+          onmouseover="onmouseoverBGColor(event)"
+          onmouseout="onmouseoutBGColor(event)"
+          onclick="handleFormSubmit(event)"
+        >
+          <div id="update" class="category">Update Section</div>
+        </div>
+        <div id="CreateSectionDiv"
+            onmouseover="onmouseoverBGColor(event)"
+            onmouseout="onmouseoutBGColor(event)"
+            onclick="handleFormSubmit(event)"
+        >
+            <div id="create" class="category">Create Section</div>
+        </div>
+      </div>
+      <!-- ! -->
+    </div>
+
+    <!-- Denial of Access for AdminPage -->
+    <div id="adminAccessDeniedDivision">
+      <div class="adminAccessDeniedDivisionModalContent">
+        <div id="adminAccessDeniedDivisionHolder">
+          <p
+            id="adminAccessDeniedDivisionMessage"
+            style="font-weight: 600; font-size: large"
+          >
+            Unauthorized Access. Only Admin has privilege
+          </p>
+          <div id="editEmployeeChartAccessEnsureButton">
+            <button
+              class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+              onclick="(() => {document.getElementById('adminAccessDeniedDivision').style.visibility = 'hidden'})()"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ! ............... Form to send values to other pages .................-->
+    <form action="/updateSection" method="post" id="update_Section">
+      <input
+        type="hidden"
+        id="currentUser"
+        name="currentUser"
+        value="<%= currentUser %>"
+      />
+      <input
+        type="hidden"
+        id="currentEmpID"
+        name="currentEmpID"
+        value="<%= currentEmpID %>"
+      />
+      <input
+        type="hidden"
+        id="companyName"
+        name="companyName"
+        value="<%= companyName %>"
+      />
+      <input type="hidden" class="token" name="token" value="" />
+    </form>
+    <form action="/profile" method="post" id="userProfileForm">
+      <input
+        type="hidden"
+        id="currentUser"
+        name="currentUser"
+        value="<%= currentUser %>"
+      />
+      <input
+        type="hidden"
+        id="currentEmpID"
+        name="currentEmpID"
+        value="<%= currentEmpID %>"
+      />
+      <input
+        type="hidden"
+        id="companyName"
+        name="companyName"
+        value="<%= companyName %>"
+      />
+      <input type="hidden" class="token" name="token" value="" />
+    </form>
+    <form action="/follower" method="post" id="followerForm">
+      <input
+        type="hidden"
+        id="currentUser"
+        name="currentUser"
+        value="<%= currentUser %>"
+      />
+      <input
+        type="hidden"
+        id="currentEmpID"
+        name="currentEmpID"
+        value="<%= currentEmpID %>"
+      />
+      <input
+        type="hidden"
+        id="companyName"
+        name="companyName"
+        value="<%= companyName %>"
+      />
+      <input type="hidden" class="token" name="token" value="" />
+    </form>
+    <form action="/filter" method="post" id="filterFrom">
+      <input
+        type="hidden"
+        id="currentUser"
+        name="currentUser"
+        value="<%= currentUser %>"
+      />
+      <input
+        type="hidden"
+        id="currentEmpID"
+        name="currentEmpID"
+        value="<%= currentEmpID %>"
+      />
+      <input
+        type="hidden"
+        id="companyName"
+        name="companyName"
+        value="<%= companyName %>"
+      />
+      <input type="hidden" class="token" name="token" value="" />
+    </form>
+    <form action="/admin" method="post" id="adminForm">
+      <input
+        type="hidden"
+        id="currentUser"
+        name="currentUser"
+        value="<%= currentUser %>"
+      />
+      <input
+        type="hidden"
+        id="currentEmpID"
+        name="currentEmpID"
+        value="<%= currentEmpID %>"
+      />
+      <input
+        type="hidden"
+        id="companyName"
+        name="companyName"
+        value="<%= companyName %>"
+      />
+      <input type="hidden" class="token" name="token" value="" />
+    </form>
+    <form action="/adminLog" method="post" id="adminLogForm">
+      <input
+        type="hidden"
+        id="currentUser"
+        name="currentUser"
+        value="<%= currentUser %>"
+      />
+      <input
+        type="hidden"
+        id="currentEmpID"
+        name="currentEmpID"
+        value="<%= currentEmpID %>"
+      />
+      <input
+        type="hidden"
+        id="companyName"
+        name="companyName"
+        value="<%= companyName %>"
+      />
+      <input type="hidden" class="token" name="token" value="" />
+    </form>
+    <form action="/dashboard" method="post" id="dashboardForm">
+      <input
+        type="hidden"
+        id="currentUser"
+        name="currentUser"
+        value="<%= currentUser %>"
+      />
+      <input
+        type="hidden"
+        id="currentEmpID"
+        name="currentEmpID"
+        value="<%= currentEmpID %>"
+      />
+      <input
+        type="hidden"
+        id="companyName"
+        name="companyName"
+        value="<%= companyName %>"
+      />
+      <input type="hidden" class="token" name="token" value="" />
+    </form>
+    <form action="/updateSection" method="post" id="updateSectionForm">
+      <input
+        type="hidden"
+        id="currentUser"
+        name="currentUser"
+        value="<%= currentUser %>"
+      />
+      <input
+        type="hidden"
+        id="currentEmpID"
+        name="currentEmpID"
+        value="<%= currentEmpID %>"
+      />
+      <input
+        type="hidden"
+        id="companyName"
+        name="companyName"
+        value="<%= companyName %>"
+      />
+      <input type="hidden" class="token" name="token" value="" />
+    </form>
+    <form action="/createSection" method="post" id="createSectionForm">
+      <input
+        type="hidden"
+        id="currentUser"
+        name="currentUser"
+        value="<%= currentUser %>"
+      />
+      <input
+        type="hidden"
+        id="currentEmpID"
+        name="currentEmpID"
+        value="<%= currentEmpID %>"
+      />
+      <input
+        type="hidden"
+        id="companyName"
+        name="companyName"
+        value="<%= companyName %>"
+      />
+      <input type="hidden" class="token" name="token" value="" />
+    </form>
+    <form action="updateSection-II" method="post" id="updateSectionIIForm">
+      <input
+        type="hidden"
+        id="currentUser"
+        name="currentUser"
+        value="<%= currentUser %>"
+      />
+      <input
+        type="hidden"
+        id="currentEmpID"
+        name="currentEmpID"
+        value="<%= currentEmpID %>"
+      />
+      <input
+        type="hidden"
+        id="companyName"
+        name="companyName"
+        value="<%= companyName %>"
+      />
+      <input
+        type="hidden"
+        id="selectedCategory"
+        name="selectedCategory"
+        value=""
+      />
+    </form>
+    <div id="title-name-content">
+      <div class="sub_container">
+        <p id="title-name">Select Category</p>
+      </div>
+  </div>
+    <div class="update_container">
+      <div class="update_subContainer">
+        <h1 class="update_title">UPDATE CATEGORY SECTION</h1>
+        <div class="update_btn_container">
+          <button
+            type="button"
+            class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out"
+            onclick="(() => {document.getElementById('addCategoryDivision').style.visibility = 'visible'})()"
+          >
+            ADD CATEGORY
+          </button>
+          <button
+            type="button"
+            class="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"
+            onclick="(() => {document.getElementById('removeCategoryDivision').style.visibility = 'visible'})()"
+          >
+            DELETE CATEGORY
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="main-content">
+      <div class="content_list">
+        <% for(let i = 0 ; i < categoryListItems.length ; i++){ %>
+        <button
+          onclick="transmit('<%= categoryListItems[i].category %>')"
+          class="form-content"
+          id="first-layer-button<%= i+1 %>"
+        >
+          <%= categoryListItems[i].category %>
+        </button>
+        <%}%>
+      </div>
+    </div>
+    <!-- !........... Popups for Deletion of category........... -->
+    <div id="removeCategoryDivision">
+      <div class="removeCategoryModalContent">
+        <div id="removeCategoryDivisionHolder">
+          <p
+            style="font-weight: 700; margin: 1%; padding: 1%; font-size: large"
+          >
+            Remove Category
+          </p>
+          <div id="removeCategoryInput">
+            <p style="font-weight: 500">Select Category:</p>
+            <select name="category" id="category">
+              <% for(let i = 0 ; i < categoryListItems.length ; i++){ %>
+              <option
+                class="category_options"
+                id="remove_category_option_<%= i+1 %>"
+                value="<%= categoryListItems[i].category%>"
+              >
+                <%= categoryListItems[i].category%>
+              </option>
+              <%}%>
+            </select>
+          </div>
+          <!-- <div  id="selectUserIDErrorMsg" style="visibility: hidden;color: #FF0000;">Select an user ID</div> -->
+          <div id="removeCategoryButton">
+            <button
+              type="button"
+              style="display: block"
+              class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+              onclick="(() => document.getElementById('removeCategoryDivisionEnsure').style.visibility = 'visible')()"
+            >
+              Remove
+            </button>
+            <button
+              type="button"
+              style="display: block"
+              class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+              onclick="(() => {document.getElementById('removeCategoryDivision').style.visibility = 'hidden'})()"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="removeCategoryDivisionEnsure">
+      <div class="removeCategoryEnsureModalContent">
+        <div
+          id="removeCategoryDivisionEnsureHolder"
+          style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <p style="font-size: large; font-weight: 600 ;color: black;">
+            Are you sure want to remove ?
+          </p>
+          <div id="removeCategoryEnsureButton">
+            <button
+              style="display: block"
+              class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+              onclick="removeCategory()"
+            >
+              Remove
+            </button>
+            <button
+              style="display: block"
+              class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+              onclick="(() => {document.getElementById('removeCategoryDivisionEnsure').style.visibility = 'hidden'})()"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="removeCategoryDivisionSuccess">
+      <div class="removeCategoryDivisionSuccessModalContent">
+        <div id="removeCategoryFinalDivisionHolder"style="display: flex;
+        width: 90%; flex-direction: column; gap: 1rem;">
+          <p
+            style="font-weight: 700; margin: 1%;color: black; padding: 1%; font-size: large"
+            id="removeCategoryFinalMessage"
+          ></p>
+          <div>
+            <button
+              class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+              onclick="(() => document.getElementById('updateSectionForm').submit())()"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- !........... Popups for Adding of category........... -->
+    <div id="addCategoryDivision">
+      <div class="addCategoryModalContent">
+        <div id="addCategoryDivisionHolder">
+          <p
+            style="font-weight: 700; margin: 1%; padding: 1%; font-size: large"
+          >
+            Add Category
+          </p>
+          <div id="addCategoryInput">
+            <p style="font-weight: 500">Add Category:</p>
+            <form id="addCategoryForm" style="text-align: center">
+              <select id="add_Category" required>
+                <option value="Select Category" hidden>Select Category</option>
+                <% for(let i=0; i < categoryOptionsListItems.length; i++){%>
+                  <option value="<%= categoryOptionsListItems[i].category %>"><%= categoryOptionsListItems[i].category%></option>
+                <%}%>
+              </select>
+            </form>
+          </div>
+          <div>
+            <p
+              id="addCategoryErrorMsg"
+              style="font-weight: 500; color: #f00000"
+            ></p>
+          </div>
+          <div id="addCategoryButton">
+            <button
+              type="button"
+              style="display: block"
+              class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+              onclick="validateCategory()"
+            >
+              Add
+            </button>
+            <button
+              type="button"
+              style="display: block"
+              class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+              onclick="(() => {document.getElementById('addCategoryDivision').style.visibility = 'hidden'})()"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="addCategoryDivisionEnsure">
+      <div class="addCategoryEnsureModalContent">
+        <div
+          id="addCategoryDivisionEnsureHolder"
+          style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <p style="font-size: large; font-weight: 600">
+            Are you sure want to Add ?
+          </p>
+          <div id="addCategoryEnsureButton">
+            <button
+              type="button"
+              style="display: block"
+              class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+              onclick="addCategory()"
+            >
+              Add
+            </button>
+            <button
+              type="button"
+              style="display: block"
+              class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+              onclick="(() => {document.getElementById('addCategoryDivisionEnsure').style.visibility = 'hidden'})()"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="addCategoryDivisionSuccess">
+      <div class="addCategoryDivisionSuccessModalContent">
+        <div id="addCategoryFinalDivisionHolder" style="display: flex;
+        width: 90%; flex-direction: column; gap: 1rem;">
+          <p
+            style="font-weight: 700; margin: 1%; padding: 1%;color: black; font-size: large"
+            id="addCategoryFinalMessage"
+          ></p>
+          <div>
+            <button
+              class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+              onclick="(() => document.getElementById('updateSectionForm').submit())()"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form action="/checkout" id="checkoutForm" method="post"></form>
+    <script>
+      console.log('token: ', localStorage.getItem('token'));
+
+      const tokenElements = document.getElementsByClassName('token');
+
+      const categoryListItems = <%- JSON.stringify(categoryListItems) %>;
+      console.log('categoryListItems', categoryListItems)
+
+      Object.values(tokenElements).map((tokenElement) => {
+        tokenElement.value = localStorage.getItem('token');
+      });
+
+      document.addEventListener('click', hideAndSeek);
+
+      function hideAndSeek(event) {
+        const navBarDivision = document.getElementById('navBarDivision');
+        if (event.target.id != 'navBarIcon') {
+          navBarDivision.style.display = 'none';
+        } else {
+          if (
+            navBarDivision.style.display == 'none' ||
+            navBarDivision.style.display == ''
+          ) {
+            navBarDivision.style.display = 'inline-block';
+          } else if (navBarDivision.style.display == 'inline-block') {
+            navBarDivision.style.display = 'none';
+          }
+        }
+      }
+
+      function onmouseoverBGColor(event) {
+        event.target.style.backgroundColor = '#075154';
+      }
+
+      function onmouseoutBGColor(event) {
+        if (event.target.id != 'update') {
+          event.target.style.backgroundColor = '#4ca1af';
+        }
+      }
+
+      function handleFormSubmit(event) {
+        var empStatus = '<%= emp_Status %>';
+        var empChartAccess = '<%= emp_ChartAccess %>';
+
+        if (event.target.id == 'reportGeneration') {
+          if (empChartAccess.length > 0) {
+            document.getElementById('filterFrom').submit();
+          } else {
+            document.getElementById(
+              'reportGenerationDeniedDivision'
+            ).style.visibility = 'visible';
+          }
+        } else if (event.target.id == 'update') {
+          if (empStatus == 'admin') {
+            document.getElementById('update_Section').submit();
+          } else {
+            document.getElementById(
+              'adminAccessDeniedDivision'
+            ).style.visibility = 'visible';
+          }
+        } else if (event.target.id == 'administration') {
+          if (empStatus == 'admin') {
+            document.getElementById('adminForm').submit();
+          } else {
+            document.getElementById(
+              'adminAccessDeniedDivision'
+            ).style.visibility = 'visible';
+          }
+        } else if (event.target.id == 'adminLog') {
+          if (empStatus == 'admin') {
+            document.getElementById('adminLogForm').submit();
+          } else {
+            document.getElementById(
+              'adminAccessDeniedDivision'
+            ).style.visibility = 'visible';
+          }
+        } else if (event.target.id == 'activityLog') {
+          if (empStatus == 'admin') {
+            document.getElementById('dashboardForm').submit();
+          } else {
+            document.getElementById(
+              'adminAccessDeniedDivision'
+            ).style.visibility = 'visible';
+          }
+        } else if (event.target.id == 'user_Profile') {
+          document.getElementById('userProfileForm').submit();
+        } else if(event.target.id == 'create'){
+          document.getElementById('createSectionForm').submit();
+        } else if(event.target.id == 'dataEntry'){
+          document.getElementById('followerForm').submit();
+        }
+      }
+
+      async function transmit(selectedGroup) {
+        document.getElementById('selectedCategory').value = selectedGroup;
+        const updateSectionIIForm = document.getElementById(
+          'updateSectionIIForm'
+        );
+        updateSectionIIForm.submit();
+      }
+
+      function validateCategory() {
+        const addCategoryForm = document.getElementById('addCategoryForm');
+        if (!addCategoryForm.checkValidity()) {
+          if (addCategoryForm.reportValidity) {
+            addCategoryForm.reportValidity();
+          } else {
+            alert(msg.ieErrorForm);
+          }
+        } else {
+          if(document.getElementById('add_Category').value == 'Select Category'){
+            document.getElementById('addCategoryErrorMsg').innerHTML =
+                'Select a category';
+
+            setTimeout(() => {
+              document.getElementById('addCategoryErrorMsg').innerHTML = '';
+            }, 3000);
+          }else{
+            const input_value = document.getElementById('add_Category').value
+            let isSectionExistAlready = false
+            categoryListItems.map( (category) => {
+              if(input_value == Object.values(category)[0]){
+                isSectionExistAlready = true
+              }
+            })
+            if (isSectionExistAlready) {
+              document.getElementById('addCategoryErrorMsg').innerHTML =
+                'Category already exists';
+
+              setTimeout(() => {
+                document.getElementById('addCategoryErrorMsg').innerHTML = '';
+              }, 3000);
+            } else {
+              document.getElementById(
+                'addCategoryDivisionEnsure'
+              ).style.visibility = 'visible';
+            }
+          }
+        }
+      }
+
+      async function addCategory() {
+        const newCategory = document.getElementById('add_Category').value;
+
+        const response = await fetch('/addCategory', {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            newCategory: newCategory,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (data.status == 'success') {
+          document.getElementById('addCategoryFinalMessage').innerHTML =
+            'Category successfully added';
+
+          document.getElementById(
+            'addCategoryDivisionSuccess'
+          ).style.visibility = 'visible';
+        } else {
+          document.getElementById('addCategoryFinalMessage').innerHTML =
+            'Error adding category. Try Again!';
+
+          document.getElementById(
+            'addCategoryDivisionSuccess'
+          ).style.visibility = 'visible';
+        }
+      }
+
+      async function removeCategory() {
+        const category = document.getElementById('category').value;
+        console.log('category: ', category);
+
+        const response = await fetch('/removeCategory', {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            category,
+          }),
+        });
+
+        if (response.status == 200) {
+          document.getElementById('removeCategoryFinalMessage').innerHTML =
+            'Category removed successfully';
+          document.getElementById(
+            'removeCategoryDivisionSuccess'
+          ).style.visibility = 'visible';
+        } else {
+          document.getElementById('removeCategoryFinalMessage').innerHTML =
+            'Error removing Category. Try Again!';
+          document.getElementById(
+            'removeCategoryDivisionSuccess'
+          ).style.visibility = 'visible';
+        }
+      }
+
+      function logout() {
+        localStorage.removeItem('token');
+        Object.values(tokenElements).map((tokenElement) => {
+          tokenElement.value = '';
+        });
+        document.getElementsByClassName('logoutButton')[0].submit();
+      }
+    </script>
+  </body>
+</html>

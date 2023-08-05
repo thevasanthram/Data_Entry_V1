@@ -1,0 +1,784 @@
+* {
+  margin: 0px;
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+  background-color: #222831;
+  color: #eeeeee;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+/* !........ScrollBar Style......... */
+
+::-webkit-scrollbar {
+  width: 16px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background-color: #dddad3;
+  box-shadow: inset 0 0 5px darkgrey; 
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #98adbe; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #B7C4CF; 
+}
+/* !............................ */
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  --webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  --moz-appearance: textfield;
+}
+
+/*!........ Styling for header part which contain user_name App_Name and LOGOUT btn  */
+.header {
+  width: 100%;
+  display: flex;
+  min-height: 4.5rem;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #393e46;
+  color: #f0e3e3;
+  position: relative;
+}
+#btn {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.admin {
+  color: #00adb5;
+  margin-right: 8%;
+  text-align: center;
+  line-height: initial;
+  font-weight: 500;
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+}
+.heading {
+  padding-left: 1%;
+  font-weight: 700;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+}
+
+.button-logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2%;
+  margin: 5%;
+  width: 8rem;
+  font-weight: 600;
+  font-size: medium;
+  height: 2.5rem;
+  border-radius: 5px;
+  color: #eeeeee;
+  border-color: rgb(91, 97, 166);
+}
+.button-logout:hover {
+  border-right-color: rgb(45, 56, 184);
+}
+
+/* TODO .....................SIDE NAV BAR MENU........................... */
+
+#navBarDivision {
+  position: absolute;
+  display: none;
+  width: 17%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  height: 89.9%;
+  z-index: 5;
+  color: #eeeeee;
+  background-color: #4ca1af;
+  animation-name: side_bar;
+  animation-duration: 0.7s;
+}
+.category {
+  font-size: 140%;
+  font-weight: 500;
+  min-height: 8vh;
+  display: flex;
+  align-items: center;
+  padding: 2px 10px;
+  transition: background 0.25s ease;
+  animation-name: show;
+  animation-duration: 1s;
+}
+/*!.....................Animation for Nav Side Bar.................. */
+
+@keyframes show {
+  0% {
+    font-size: 1%;
+  }
+  50% {
+    font-size: 140%;
+  }
+}
+@keyframes side_bar {
+  0% {
+    width: 0%;
+  }
+  50% {
+    width: 17%;
+  }
+}
+#CreateSectionDiv {
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
+  background-color: #075154;
+}
+#DataEntryDiv,
+#UpdateSectionDiv,
+#ReportGenerationDiv,
+#AdministrationDiv,
+#AdminLogDiv,
+#DashboardDiv,
+#UserProfileDiv {
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
+}
+
+/* ! End of Nav Side Bar Menu */
+
+
+
+
+#main_content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 89vh;
+}
+
+/* createSection Layout */
+#create_section_layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 43%;
+  height: 80%;
+  padding: 15px 10px;
+  border-radius: 10px;
+  margin: 1%;
+  background-color: #105469;
+  gap: 0rem;
+}
+
+#existing_section_items{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 43%;
+  height: 80%;
+  padding: 15px 10px;
+  border-radius: 10px;
+  margin: 1%;
+  background-color: #6096B4;
+  gap: 0rem;
+  color: black;
+}
+
+#create_section_title {
+  font-size: 30px;
+  font-weight: 500;
+}
+
+#section_title_name{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+/*!........... left section part............ */
+
+#left_right_section_container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+}
+
+#left_section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  width: 90%;
+}
+
+#right_section{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* category section */
+#main_section_selector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  height: 100%;
+  border-radius: 5px;
+  gap: 1rem;
+  color: black;
+  background-color: #e2e8f0;
+}
+
+#main_section_selector:hover {
+  transform: scale(1.005);
+  transition: .3s all ease-in-out;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+
+.section_content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#add_category_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#add_category_items {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#delete_category_container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#delete_category_items{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* sub-category section */
+
+#add_sub_category_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#add_sub_category_items {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#delete_sub_category_container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#delete_sub_category_items{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/*!.......... right section part ........... */
+
+/* defect section */
+
+#add_defect_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#add_defect_items {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#delete_defect_container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#delete_defect_items{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* Sub-Defect Section */
+
+#add_sub_defect_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#add_sub_defect_items {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#delete_sub_defect_container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#delete_sub_defect_items{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* ! common classes */
+
+.errorMsg{
+  color: rgb(232, 22, 22);
+}
+
+.section_title_name {
+  margin-top: 10px;
+  font-weight: 600;
+  font-size: larger;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.add_button {
+  padding: 2px 10px 2px 10px;
+  background-color: rgb(83, 170, 173);
+  font-weight: 700;
+  border-radius: 2px;
+  cursor: pointer;
+  border-bottom: 2px solid;
+  width: 55%;
+  text-align: center;
+}
+
+.delete_button{
+  padding: 2px 10px 2px 10px;
+  background-color: rgba(101, 169, 171, 0.421);
+  font-weight: 500;
+  border-radius: 2px;
+  cursor: pointer;
+  border-bottom: 2px solid;
+  width: 56%;
+  text-align: center;
+}
+
+.action_button_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.input_content {
+  border: 3px solid #ccc;
+  border-radius: 5px;
+  background-color: lightblue;
+  text-align: center;
+  color: black;
+}
+
+.final_action_button {
+  background-color: #105469;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  flex: 0 0 auto;
+  font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+  padding: .25rem 1.25rem;
+  text-align: center;
+  text-decoration: none #6B7280 solid;
+  --text-decoration-thickness: auto;
+  transition-duration: .2s;
+  transition-property: background-color,border-color,color,fill,stroke;
+  transition-timing-function: cubic-bezier(.4, 0, 0.2, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: auto;
+  margin-bottom: 10px;
+}
+
+.final_action_button:hover {
+  background-color: #374151;
+}
+
+.final_action_button:focus {
+  box-shadow: none;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+/* !.......... Right Section List ..............*/
+.list_items {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  height: 90%;
+  position: relative;
+  gap: 1rem;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  transition: all 0.3s ease-in-out;
+}
+.current_items {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr;
+  transition: all 0.3s ease-in-out;
+  grid-gap:8px;
+  width: 98%;
+}
+.section_title {
+  width: 98%;
+  font-size: larger;
+  text-align: center;
+  padding: 5px;
+  color: rgb(241, 205, 115);
+  background-color: #112D4E;
+  font-weight: 600;
+  border-radius: 4px;
+  position: sticky;
+  text-transform: uppercase;
+  top: 0px;
+}
+.current_item {
+  background-color: #BDCDD6;
+  border-radius: 4px;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 5px;
+  transition: all 0.3s ease-in-out;
+}
+.current_item:hover {
+  background-color: #DBE2EF;
+}
+/* !..........END............. */
+#responsePopupDivision {
+  visibility: hidden; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+  transition: all 0.5s ease-in-out;
+}
+
+.responsePopupModalContent {
+  background-color: #00ab41;
+  width: 35%;
+  height: 33%;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: all 0.5s ease-in-out;
+}
+
+#responsePopupEnsureDivision {
+  visibility: hidden; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+  transition: all 0.5s ease-in-out;
+}
+
+.responsePopupEnsureModalContent {
+  background-color: #00ab41;
+  width: 35%;
+  height: 33%;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: all 0.5s ease-in-out;
+}
+@media screen and (max-width: 1280px) {
+  .header {
+    position: sticky;
+    top: 0px;
+  }
+  #navBarDivision {
+    position: fixed;
+    display: none;
+    width: 25%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 90%;
+    z-index: 5;
+    color: #eeeeee;
+    background-color: #4ca1af;
+    animation-name: side_bar;
+    animation-duration: 0.7s;
+  }
+  @keyframes side_bar {
+    0% {
+      width: 0%;
+    }
+    50% {
+      width: 25%;
+    }
+  }
+}
+
+@media screen and (max-width:1050px) {
+  #create_section_layout {
+    width: 46%;
+    height: 80%;
+  }
+  #existing_section_items {
+    width: 46%;
+    height: 80%;
+  }
+  /* .current_item {
+    background-color: #BDCDD6;
+    border-radius: 4px;
+    text-align: center;
+    padding: 2px;
+  } */
+
+    #navBarDivision {
+      width: 30%;
+      height: 90%;
+    }
+    .category {
+      font-size: 130%;
+      font-weight: 500;
+      min-height: 7vh;
+    }
+    @keyframes show {
+      0% {
+        font-size: 1%;
+      }
+      50% {
+        font-size: 130%;
+      }
+    }
+}
+
+@media screen and (max-width:881px) {
+  #main_content {
+    flex-direction: column;
+    height: auto;
+  }
+
+  #create_section_layout {
+    width: 70%;
+    margin: 2%;
+  }
+
+  #existing_section_items {
+    width: 70%;
+  }
+}
+@media screen and (max-width:768px) {
+  #navBarDivision {
+    width: 35%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 10 0%;
+  }
+  .category {
+    font-size: 120%;
+    font-weight: 500;
+    min-height: 7vh;
+  }
+  /* !........................Animation Style for Side Menu Bar.................... */
+
+  @keyframes show {
+    0% {
+      font-size: 1%;
+    }
+    50% {
+      font-size: 120%;
+    }
+  }
+  @keyframes side_bar {
+    0% {
+      width: 0%;
+    }
+    50% {
+      width: 35%;
+    }
+  }
+}
+@media screen and (max-width:560px) {
+  .heading {
+    padding-left: 1%;
+    font-weight: 700;
+    font-size: clamp(20px, 0.8vw, 1.5rem);
+    /* width: 26px; */
+  }
+
+  #btn {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    position: relative;
+    flex-direction: column;
+    line-height: 28px;
+    right: 2%;
+  }
+  .admin {
+    color: #00adb5;
+    margin-right: 0%;
+    font-weight: 500;
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    text-align: center;
+  }
+
+  .button-logout {
+    background: linear-gradient(to right, #0f0c29, #302b63, #0f0c29);
+    width: 70px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+  }
+  #main_content {
+    flex-direction: column;
+    height: auto;
+  }
+
+  #create_section_layout {
+    width: 90%;
+    margin: 2%;
+  }
+
+  #existing_section_items {
+    width: 90%;
+  }
+}
+@media screen and (max-width:400px) {
+  #create_section_layout {
+    width: 95%;
+    margin-top: 2%;
+  }
+
+  #existing_section_items {
+    width: 95%;
+  }
+
+  #navBarDivision {
+    width: 50%;
+    height: 90%;
+  }
+  .category {
+    font-size: 120%;
+    font-weight: 500;
+    min-height: 7vh;
+  }
+  /* !........................Animation Style for Side Menu Bar.................... */
+
+  @keyframes show {
+    0% {
+      font-size: 1%;
+    }
+    50% {
+      font-size: 120%;
+    }
+  }
+  @keyframes side_bar {
+    0% {
+      width: 0%;
+    }
+    50% {
+      width: 50%;
+    }
+  }
+}
+
+
+  
