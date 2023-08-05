@@ -1,0 +1,13 @@
+*, ::after, ::before {
+  margin: 0%;
+  box-sizing: border-box;
+}
+
+.forget_pass {
+  margin: 1%;
+  position: relative;
+}
+
+.forget_pass:hover {
+  color: darkblue;
+}
